@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --obsidian: #0b0e0b;
+  --forest-dark: #111a13;
+  --forest-mid: #2e4830;
+  --olive: #6c7f56;
+  --copper: #9c6a3f;
+  --bronze: #b78a59;
+  --sand: #ede8dd;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--obsidian);
+  color: var(--sand);
+}
+
+body {
+  font-family: var(--font-body), "Trebuchet MS", "Segoe UI", sans-serif;
+  background-image:
+    radial-gradient(
+      circle at 15% 0%,
+      rgba(108, 127, 86, 0.2) 0%,
+      rgba(11, 14, 11, 0) 38%
+    ),
+    radial-gradient(
+      circle at 85% 0%,
+      rgba(156, 106, 63, 0.16) 0%,
+      rgba(11, 14, 11, 0) 42%
+    ),
+    linear-gradient(180deg, #0b0e0b 0%, #060805 100%);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display), "Palatino Linotype", Georgia, serif;
+  letter-spacing: 0.015em;
+}
+
+::selection {
+  background: rgba(183, 138, 89, 0.34);
+  color: #ffffff;
+}
+
+@layer components {
+  .section-shell {
+    @apply mx-auto w-full max-w-6xl px-6 md:px-10;
+  }
+
+  .glass-panel {
+    @apply rounded-2xl border border-white/10 bg-white/[0.035] backdrop-blur-xl;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
