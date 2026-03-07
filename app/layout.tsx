@@ -19,7 +19,15 @@ const bodyFont = Space_Grotesk({
 export const metadata: Metadata = {
   title: "lakhdar's portfolio",
   description:
-    "Landing page 2.5D immersive construite avec Next.js, Framer Motion et GSAP ScrollTrigger."
+    "Landing page 2.5D immersive construite avec Next.js, Framer Motion et GSAP ScrollTrigger.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.png", type: "image/png" }
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/favicon.png"
+  }
 };
 
 export default function RootLayout({
