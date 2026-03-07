@@ -586,6 +586,7 @@ export default function MobileScrollView() {
   const [showContact, setShowContact] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [langOpen, setLangOpen] = useState(false);
 
   /* ── Touch-drag parallax state ── */
   const [parallax, setParallax] = useState({ x: 0, y: 0 });
@@ -620,13 +621,26 @@ export default function MobileScrollView() {
 
   return (
     <div
-      className="relative h-[100dvh] overflow-hidden bg-obsidian touch-none"
+      className="relative h-[100dvh] overflow-hidden bg-obsidian"
+      style={{ touchAction: "none" }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
+      {/* Background image */}
+      <div className="pointer-events-none absolute inset-0 z-0">
+        <Image
+          src="/scene/background%20mobile.png"
+          alt=""
+          fill
+          priority
+          className="object-cover object-center"
+          sizes="100vw"
+        />
+      </div>
+
       {/* Background glow */}
-      <div className="pointer-events-none absolute inset-0">
+      <div className="pointer-events-none absolute inset-0 z-[1]">
         <div className="absolute left-1/2 top-1/2 h-[60vh] w-[60vh] -translate-x-1/2 -translate-y-1/2 rounded-full bg-bronze/8 blur-[120px]" />
         <div className="absolute left-1/2 top-1/2 h-[35vh] w-[35vh] -translate-x-1/2 -translate-y-1/2 rounded-full bg-copper/10 blur-[80px]" />
       </div>
@@ -644,11 +658,8 @@ export default function MobileScrollView() {
               {char}
             </motion.span>
           ))}
-          <motion.span
-            className="inline-block w-[2px] h-[1.1em] bg-bronze/60 align-middle ml-0.5"
-            animate={{ opacity: [1, 0] }}
-            transition={{ repeat: Infinity, duration: 0.7, ease: "steps(1)" }}
-            initial={{ opacity: 1 }}
+          <span
+            className="inline-block w-[2px] h-[1.1em] bg-bronze/60 align-middle ml-0.5 animate-blink"
           />
         </h1>
       </div>
@@ -689,26 +700,41 @@ export default function MobileScrollView() {
 
       {/* ── Bottom bar ── */}
       <div className="absolute bottom-0 left-0 right-0 z-30 flex items-center justify-between px-3 pb-4 pt-8 bg-gradient-to-t from-obsidian via-obsidian/80 to-transparent">
-        {/* Language switcher */}
-        <div className="flex items-center gap-1">
-          {LANG_ORDER.map((l) => (
-            <button
-              key={l}
-              type="button"
-              onClick={() => setLang(l)}
-              className={`flex h-7 w-7 items-center justify-center rounded-full border text-xs transition-all ${
-                l === lang
-                  ? "border-bronze/40 bg-bronze/15"
-                  : "border-white/10 bg-white/5"
-              }`}
-            >
-              {FLAGS[l]}
-            </button>
-          ))}
+        {/* Language switcher — compact dropdown */}
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => setLangOpen((p) => !p)}
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-bronze/40 bg-bronze/15 text-sm"
+          >
+            {FLAGS[lang]}
+          </button>
+          <AnimatePresence>
+            {langOpen && (
+              <motion.div
+                className="absolute bottom-10 left-0 flex flex-col gap-1 rounded-xl border border-white/10 bg-obsidian/95 backdrop-blur-md p-1.5 shadow-xl"
+                initial={{ opacity: 0, y: 6, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 6, scale: 0.9 }}
+                transition={{ duration: 0.15 }}
+              >
+                {LANG_ORDER.filter((l) => l !== lang).map((l) => (
+                  <button
+                    key={l}
+                    type="button"
+                    onClick={() => { setLang(l); setLangOpen(false); }}
+                    className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-sm transition-all hover:bg-white/10"
+                  >
+                    {FLAGS[l]}
+                  </button>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Click hint */}
-        <p className="text-[9px] tracking-[0.12em] text-white/25">
+        <p className="text-[10px] tracking-[0.12em] text-white/30">
           {t("clickToExplore", lang)}
         </p>
 

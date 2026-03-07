@@ -24,7 +24,16 @@ const config: Config = {
       backgroundImage: {
         grain:
           "radial-gradient(rgba(255,255,255,0.04) 0.5px, transparent 0.5px)"
-      }
+      },
+      keyframes: {
+        blink: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0" },
+        },
+      },
+      animation: {
+        blink: "blink 1s step-end infinite",
+      },
     }
   },
   plugins: []

@@ -598,7 +598,7 @@ export default function HeroScene() {
             priority
             fetchPriority="high"
             className="object-contain object-center scale-[1.05] translate-y-[4%] min-[501px]:scale-[1.2] md:hidden"
-            sizes="100vw"
+            sizes="(max-width: 500px) 100vw, 50vw"
           />
           <Image
             src="/scene/background-tablet-mobile.png"
@@ -607,7 +607,7 @@ export default function HeroScene() {
             priority
             fetchPriority="high"
             className="hidden object-contain object-center scale-[1.08] translate-y-[2%] md:block lg:hidden"
-            sizes="100vw"
+            sizes="(max-width: 1024px) 80vw, 50vw"
           />
           <Image
             src="/scene/background-main.png"
@@ -616,7 +616,7 @@ export default function HeroScene() {
             priority
             fetchPriority="high"
             className="hidden object-contain object-center lg:block"
-            sizes="100vw"
+            sizes="50vw"
           />
         </motion.div>
 
