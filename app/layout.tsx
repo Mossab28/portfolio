@@ -17,7 +17,7 @@ const bodyFont = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio Immersif | Premium Landing",
+  title: "lakhdar's portfolio",
   description:
     "Landing page 2.5D immersive construite avec Next.js, Framer Motion et GSAP ScrollTrigger."
 };
