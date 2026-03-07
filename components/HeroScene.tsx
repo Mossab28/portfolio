@@ -132,9 +132,8 @@ function getSectionContent(onPreview: (url: string) => void): Record<string, Rea
         {[
           {
             company: "Renault Korea",
-            logo: "R",
-            logoBg: "from-yellow-500/30 to-yellow-300/10",
-            logoText: "text-yellow-300",
+            logoSrc: "/scene/renault logo.webp",
+            logoClass: "h-12 w-12",
             role: "Software & AI Engineer Intern",
             period: "Sep 2025 – Feb 2026 · South Korea",
             bullets: [
@@ -146,9 +145,8 @@ function getSectionContent(onPreview: (url: string) => void): Record<string, Rea
           },
           {
             company: "FabulousCreations Studio",
-            logo: "F",
-            logoBg: "from-pink-500/30 to-pink-300/10",
-            logoText: "text-pink-300",
+            logoSrc: "/scene/logo fabulous.png",
+            logoClass: "h-20 w-20",
             role: "Web Developer",
             period: "Jan 2025 – Ongoing · Paris",
             bullets: [
@@ -157,9 +155,8 @@ function getSectionContent(onPreview: (url: string) => void): Record<string, Rea
           },
           {
             company: "Columbus Café",
-            logo: "C",
-            logoBg: "from-amber-600/30 to-amber-400/10",
-            logoText: "text-amber-300",
+            logoSrc: "/scene/logo columbus.png",
+            logoClass: "h-20 w-20",
             role: "Internship",
             period: "Jul 2024 – Aug 2024 · Paris",
             bullets: [
@@ -168,7 +165,7 @@ function getSectionContent(onPreview: (url: string) => void): Record<string, Rea
           },
         ].map((exp) => (
           <div key={exp.company} className="flex items-start gap-4">
-            <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br ${exp.logoBg} text-base font-bold ${exp.logoText}`}>{exp.logo}</div>
+            <Image src={exp.logoSrc} alt={exp.company} width={80} height={80} className={`${exp.logoClass} shrink-0 rounded-lg object-contain`} />
             <div className="flex-1 border-l-2 border-bronze/40 pl-4">
               <h4 className="text-base font-semibold text-sand">{exp.role} — {exp.company}</h4>
               <p className="mt-1 text-sm text-bronze">{exp.period}</p>
@@ -186,7 +183,7 @@ function getSectionContent(onPreview: (url: string) => void): Record<string, Rea
     "text-card": (
       <div className="space-y-6">
         <div className="flex items-start gap-4 rounded-lg border border-white/[0.06] bg-white/[0.02] p-4">
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-sky-600/30 to-sky-400/10 text-lg font-bold text-sky-300">K</div>
+          <Image src="/scene/KAIST_logo.svg.png" alt="KAIST" width={72} height={72} className="h-[4.5rem] w-[4.5rem] shrink-0 rounded-lg object-contain" />
           <div>
             <h4 className="text-lg font-semibold text-sand">Specialization in AI — KAIST</h4>
             <p className="mt-1 text-sm text-bronze">Feb 2025 – Jul 2025 · Daejeon, South Korea</p>
@@ -194,7 +191,7 @@ function getSectionContent(onPreview: (url: string) => void): Record<string, Rea
           </div>
         </div>
         <div className="flex items-start gap-4 rounded-lg border border-white/[0.06] bg-white/[0.02] p-4">
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-blue-700/30 to-blue-400/10 text-lg font-bold text-blue-300">U</div>
+          <Image src="/scene/Logo_UTT_2018.svg.png" alt="UTT" width={72} height={72} className="h-[4.5rem] w-[4.5rem] shrink-0 rounded-lg object-contain" />
           <div>
             <h4 className="text-lg font-semibold text-sand">Engineering in Informatics &amp; Systems — UTT</h4>
             <p className="mt-1 text-sm text-bronze">2024 – 2027 · Troyes, France</p>
@@ -204,36 +201,65 @@ function getSectionContent(onPreview: (url: string) => void): Record<string, Rea
         <div className="mt-2 space-y-3">
           <p className="text-sm uppercase tracking-[0.2em] text-bronze">Certifications</p>
           <div className="space-y-2">
-            {[
-              { name: "AI Generative", org: "Microsoft", year: "2024" },
-              { name: "Build a Computer Vision App with Azure", org: "Microsoft", year: "2024" },
-            ].map((cert) => (
-              <div key={cert.name} className="flex items-center gap-3 rounded-md border border-white/[0.06] bg-white/[0.02] px-3 py-2">
-                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded bg-[#00a4ef]/20 text-[10px] font-bold text-[#00a4ef]">MS</div>
-                <div>
-                  <p className="text-sm text-sand">{cert.name}</p>
-                  <p className="text-xs text-white/40">{cert.org} · {cert.year}</p>
-                </div>
+            <div className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3">
+              <svg className="h-9 w-9 shrink-0" viewBox="0 0 21 21"><rect width="10" height="10" fill="#f25022"/><rect x="11" width="10" height="10" fill="#7fba00"/><rect width="10" height="10" y="11" fill="#00a4ef"/><rect x="11" y="11" width="10" height="10" fill="#ffb900"/></svg>
+              <div>
+                <p className="text-sm text-sand">AI Generative</p>
+                <p className="text-xs text-white/40">Microsoft</p>
               </div>
-            ))}
+            </div>
+            <div className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3">
+              <svg className="h-9 w-9 shrink-0" viewBox="0 0 21 21"><rect width="10" height="10" fill="#f25022"/><rect x="11" width="10" height="10" fill="#7fba00"/><rect width="10" height="10" y="11" fill="#00a4ef"/><rect x="11" y="11" width="10" height="10" fill="#ffb900"/></svg>
+              <div>
+                <p className="text-sm text-sand">Build a Computer Vision App with Azure</p>
+                <p className="text-xs text-white/40">Microsoft</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#232F3E]">
+                <span className="text-[11px] font-black tracking-tight text-[#FF9900]">aws</span>
+              </div>
+              <div>
+                <p className="text-sm text-sand">Getting Started with AWS Generative AI for Developers</p>
+                <p className="text-xs text-white/40">AWS</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#0F62FE]/15">
+                <span className="text-sm font-black tracking-wider text-[#0F62FE]">IBM</span>
+              </div>
+              <div>
+                <p className="text-sm text-sand">Build RAG Applications</p>
+                <p className="text-xs text-white/40">IBM</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-purple-500/15">
+                <svg className="h-6 w-6 text-purple-400" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" /></svg>
+              </div>
+              <div>
+                <p className="text-sm text-sand">Build Intelligent Agents Using DeepSeek &amp; N8N</p>
+                <p className="text-xs text-white/40">DeepSeek / N8N</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     ),
 
     cubes: (
-      <div className="space-y-4">
+      <div className="grid grid-cols-2 gap-4">
         {[
-          { name: "Hera Studio", desc: "AI platform to create personalized coloring books for kids.", tech: "React, Firebase, Stripe, OpenAI", link: "https://www.herastudio.art" },
-          { name: "Frelsi", desc: "Personal creative blog with interactive notebook system.", tech: "React, Supabase, Vercel", link: "https://frelsi.vercel.app" },
-          { name: "Fabulous Creations", desc: "One-page website for an interior designer with booking.", tech: "HTML, CSS, JavaScript", link: "https://aminssutt.github.io/Fabulous/" },
-          { name: "RePLY", desc: "Intelligent wearable device using ML for heart rate monitoring.", tech: "ML, IoT, Python, Hardware", link: null },
-          { name: "AI Adventure", desc: "Game-based learning platform for AI education at KAIST.", tech: "React, ML, Python, Gamification", link: null },
-          { name: "Great Teachers", desc: "Platform connecting students with AI assistant support.", tech: "AI, React, Node.js", link: null },
+          { name: "Hera Studio", desc: "AI-powered platform that generates personalized coloring books for children. Users choose themes, characters and styles, then the AI creates unique illustrations ready to print or color digitally.", tech: "React, Firebase, Stripe, OpenAI", link: "https://www.herastudio.art" },
+          { name: "Frelsi", desc: "A personal creative blog built around an interactive notebook system. Features real-time editing, markdown support, and a minimalist reading experience with custom themes.", tech: "React, Supabase, Vercel", link: "https://frelsi.vercel.app" },
+          { name: "Fabulous Creations", desc: "Elegant one-page portfolio for an interior designer, featuring a curated project gallery, smooth scroll animations, and an integrated booking & contact system.", tech: "HTML, CSS, JavaScript", link: "https://aminssutt.github.io/Fabulous/" },
+          { name: "RePLY", desc: "Connected wearable device that monitors heart rate using machine learning algorithms. Processes real-time IoT sensor data for health insights and anomaly detection.", tech: "ML, IoT, Python, Hardware", link: null },
+          { name: "AI Adventure", desc: "Gamified learning platform built at KAIST to teach AI concepts interactively. Tested by 30+ students with quizzes, challenges, and progressive difficulty levels.", tech: "React, ML, Python, Gamification", link: null },
+          { name: "Great Teachers", desc: "Educational platform connecting students with an AI-powered teaching assistant. Provides instant answers, personalized study plans, and resource recommendations.", tech: "AI, React, Node.js", link: null },
         ].map((p) => (
           <div
             key={p.name}
-            className={`group rounded-lg border border-white/[0.06] bg-white/[0.02] p-5 transition-all duration-300 hover:border-bronze/40 hover:bg-bronze/[0.06] ${p.link ? "cursor-pointer" : ""}`}
+            className={`group flex flex-col rounded-lg border border-white/[0.06] bg-white/[0.02] p-5 transition-all duration-300 hover:border-bronze/40 hover:bg-bronze/[0.06] ${p.link ? "cursor-pointer" : ""}`}
             onClick={() => p.link && onPreview(p.link)}
             role={p.link ? "button" : undefined}
             tabIndex={p.link ? 0 : undefined}
@@ -242,12 +268,12 @@ function getSectionContent(onPreview: (url: string) => void): Record<string, Rea
             <div className="flex items-start justify-between">
               <h4 className="text-base font-semibold text-sand group-hover:text-bronze transition-colors">{p.name}</h4>
               {p.link && (
-                <a href={p.link} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="rounded-md border border-bronze/30 bg-bronze/10 px-3 py-1 text-xs text-bronze transition-colors hover:bg-bronze/25">
+                <a href={p.link} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="shrink-0 rounded-md border border-bronze/30 bg-bronze/10 px-2.5 py-1 text-[11px] text-bronze transition-colors hover:bg-bronze/25">
                   Visit ↗
                 </a>
               )}
             </div>
-            <p className="mt-2 text-sm text-white/55">{p.desc}</p>
+            <p className="mt-2 flex-1 text-sm leading-relaxed text-white/55">{p.desc}</p>
             <div className="mt-3 flex flex-wrap gap-1.5">
               {p.tech.split(", ").map((t) => (
                 <span key={t} className="rounded-full bg-white/[0.04] px-2.5 py-0.5 text-[10px] text-bronze/70">{t}</span>
@@ -264,7 +290,7 @@ function getSectionContent(onPreview: (url: string) => void): Record<string, Rea
         {[
           { category: "Frontend", techs: ["React", "Next.js", "TypeScript", "TailwindCSS", "Framer Motion", "GSAP"] },
           { category: "Backend", techs: ["Node.js", "Firebase", "Supabase", "PostgreSQL", "Stripe"] },
-          { category: "AI & Data", techs: ["OpenAI API", "LangChain", "Python", "TensorFlow", "ML/DL", "NLP", "Computer Vision", "LLM / RAG"] },
+          { category: "AI & Data", techs: ["Gemini API", "LangChain", "Python", "TensorFlow", "ML/DL", "NLP", "Computer Vision", "LLM / RAG"] },
           { category: "Tools & DevOps", techs: ["Git", "Vercel", "Docker", "ROS2", "Figma"] },
         ].map((cat) => (
           <div key={cat.category}>
@@ -284,7 +310,7 @@ function getSectionContent(onPreview: (url: string) => void): Record<string, Rea
             {[
               { area: "Web & Mobile", items: ["Full-Stack Development", "REST APIs", "Real-time Systems", "PWA", "SEO"] },
               { area: "Data & Analytics", items: ["Data Pipelines", "Statistical Analysis", "Visualization", "SQL / NoSQL"] },
-              { area: "Soft Skills", items: ["Team Leadership", "Agile / Scrum", "Public Speaking", "Cross-cultural Collaboration"] },
+              { area: "Soft Skills", items: ["Team Leadership", "Agile XP", "Public Speaking", "Cross-cultural Collaboration"] },
             ].map((group) => (
               <div key={group.area}>
                 <h5 className="mb-2 text-xs font-medium uppercase tracking-[0.15em] text-sand/50">{group.area}</h5>
@@ -297,12 +323,7 @@ function getSectionContent(onPreview: (url: string) => void): Record<string, Rea
             ))}
           </div>
         </div>
-        <div className="border-t border-white/[0.06] pt-4">
-          <a href="https://github.com/aminssutt" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm text-white/40 transition-colors hover:text-sand">
-            <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-            View my GitHub activity
-          </a>
-        </div>
+
       </div>
     ),
 
@@ -454,6 +475,7 @@ export default function HeroScene() {
 
   const [activeIcon, setActiveIcon] = useState<SceneIcon | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [showContact, setShowContact] = useState(false);
   const isOpen = !!activeIcon;
 
   const sectionContent = getSectionContent(setPreviewUrl);
@@ -639,6 +661,60 @@ export default function HeroScene() {
             <a href="https://www.linkedin.com/in/lakhdar-berache-62095426a/" target="_blank" rel="noopener noreferrer" className="text-white/30 transition-colors hover:text-sand">
               <svg className="h-7 w-7" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
             </a>
+            <button
+              type="button"
+              onClick={() => setShowContact(true)}
+              className="rounded-full border border-bronze/30 bg-bronze/10 px-4 py-1.5 text-xs font-medium text-bronze/70 transition-all duration-300 hover:border-bronze/60 hover:bg-bronze/20 hover:text-bronze hover:shadow-[0_0_16px_rgba(183,138,89,0.3)]"
+            >
+              Open to Work — Freelance
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Contact form modal */}
+      <AnimatePresence>
+        {showContact && (
+          <motion.div
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            onClick={() => setShowContact(false)}
+          >
+            <motion.div
+              className="relative w-full max-w-md overflow-hidden rounded-2xl border border-white/10 bg-obsidian p-8 shadow-2xl"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 200, damping: 25 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                type="button"
+                onClick={() => setShowContact(false)}
+                className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-white/40 transition-colors hover:bg-white/10 hover:text-sand"
+              >
+                ✕
+              </button>
+              <h3 className="font-[var(--font-display)] text-2xl font-semibold text-sand">Get in touch</h3>
+              <p className="mt-2 text-base text-white/50">Feel free to contact me for any freelance demand or job opportunity!</p>
+              <div className="mt-6 space-y-3">
+                <a href="mailto:lakhdarberache@gmail.com" className="flex items-center gap-3 rounded-lg border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-sm text-sand transition-colors hover:border-bronze/30 hover:bg-bronze/[0.06]">
+                  <svg className="h-5 w-5 shrink-0 text-bronze" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
+                  lakhdarberache@gmail.com
+                </a>
+                <a href="tel:+33781500771" className="flex items-center gap-3 rounded-lg border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-sm text-sand transition-colors hover:border-bronze/30 hover:bg-bronze/[0.06]">
+                  <svg className="h-5 w-5 shrink-0 text-bronze" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>
+                  +33 7 81 50 07 71
+                </a>
+                <a href="https://www.linkedin.com/in/lakhdar-berache-62095426a/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-lg border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-sm text-sand transition-colors hover:border-bronze/30 hover:bg-bronze/[0.06]">
+                  <svg className="h-5 w-5 shrink-0 text-bronze" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                  Lakhdar Berache
+                </a>
+              </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
