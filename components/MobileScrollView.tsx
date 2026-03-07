@@ -604,16 +604,14 @@ export default function MobileScrollView() {
   const [showContact, setShowContact] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [langOpen, setLangOpen] = useState(false);
+  const [activeIconId, setActiveIconId] = useState<string | null>(null);
 
   const sections = buildSections(lang, setPreviewUrl);
-
-  const scrollToSection = (id: string) => {
-    const el = document.getElementById(`section-${id}`);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-  };
+  const activeSection = sections.find((section) => section.iconId === activeIconId) ?? null;
+  const activeIcon = MOBILE_ICONS.find((icon) => icon.id === activeIconId) ?? null;
 
   return (
-    <div className="relative min-h-[100dvh] overflow-x-hidden bg-obsidian">
+    <div className="relative h-[100dvh] overflow-hidden bg-obsidian">
       {/* ── Hero — full viewport ── */}
       <div className="relative h-[100dvh] overflow-hidden">
         {/* Background image */}
@@ -650,7 +648,7 @@ export default function MobileScrollView() {
           <motion.button
             key={icon.id}
             type="button"
-            onClick={() => scrollToSection(icon.sectionId)}
+            onClick={() => setActiveIconId(icon.id)}
             className="absolute z-20 flex flex-col items-center gap-1.5 -translate-x-1/2 -translate-y-1/2 group"
             style={{ left: icon.left, top: icon.top }}
             initial={{ opacity: 0, scale: 0 }}
@@ -716,19 +714,16 @@ export default function MobileScrollView() {
             </AnimatePresence>
           </div>
 
-          {/* Scroll hint */}
+          {/* Explore hint */}
           <div className="flex flex-col items-center gap-1">
             <p className="text-[10px] tracking-[0.12em] text-white/30">
               {t("clickToExplore", lang)}
             </p>
             <motion.div
-              animate={{ y: [0, 4, 0] }}
+              className="h-1.5 w-1.5 rounded-full bg-bronze/40"
+              animate={{ opacity: [0.3, 1, 0.3] }}
               transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-            >
-              <svg className="h-4 w-4 text-bronze/40" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
-              </svg>
-            </motion.div>
+            />
           </div>
 
           {/* Links */}
@@ -765,7 +760,7 @@ export default function MobileScrollView() {
       </div>
 
       {/* ── Scroll sections ── */}
-      {sections.map((section) => (
+      {false && sections.map((section) => (
         <div key={section.id} id={`section-${section.id}`}>
           <ScrollSection>
             <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-sm p-5">
@@ -787,6 +782,7 @@ export default function MobileScrollView() {
       ))}
 
       {/* ── Footer ── */}
+      {false && (
       <div className="flex min-h-[30vh] flex-col items-center justify-center gap-4 px-6 py-12">
         <h2 className="font-[var(--font-display)] text-lg font-semibold text-sand">
           {t("getInTouch", lang)}
@@ -809,6 +805,65 @@ export default function MobileScrollView() {
           </a>
         </div>
       </div>
+      )}
+
+      {/* Centered content popup */}
+      <AnimatePresence>
+        {activeSection && activeIcon && (
+          <motion.div
+            className="fixed inset-0 z-[60] flex items-center justify-center p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+          >
+            <motion.div
+              className="absolute inset-0 bg-black/65"
+              onClick={() => setActiveIconId(null)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            />
+            <motion.div
+              className="relative z-10 flex max-h-[85vh] w-full max-w-lg flex-col"
+              initial={{ scale: 0.92, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.92, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 220, damping: 24 }}
+            >
+              <div className="glass-panel relative flex h-full w-full flex-col overflow-hidden rounded-2xl p-5 shadow-ambient">
+                <button
+                  type="button"
+                  onClick={() => setActiveIconId(null)}
+                  className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-sand/70 transition-colors hover:bg-white/10 hover:text-sand"
+                >
+                  X
+                </button>
+                <div className="mb-3 flex items-center gap-2 pr-8">
+                  <Image
+                    src={activeIcon.src}
+                    alt={getIconLabel(activeIcon.id, lang)}
+                    width={36}
+                    height={36}
+                    className="h-9 w-9 object-contain"
+                  />
+                  <div>
+                    <p className="text-[10px] uppercase tracking-[0.28em] text-bronze">
+                      {getIconLabel(activeIcon.id, lang)}
+                    </p>
+                    <h2 className="font-[var(--font-display)] text-xl font-semibold text-sand">
+                      {getIconLabel(activeIcon.id, lang)}
+                    </h2>
+                  </div>
+                </div>
+                <div className="flex-1 overflow-y-auto pr-1 text-sm leading-relaxed text-white/60">
+                  {activeSection.content}
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Contact modal */}
       <AnimatePresence>
