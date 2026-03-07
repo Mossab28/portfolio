@@ -1,6 +1,6 @@
 "use client";
 
-import { RefObject, useEffect, useRef } from "react";
+import { RefObject, useEffect } from "react";
 import { useMotionValue, useSpring } from "framer-motion";
 
 type UseMouseParallaxOptions = {

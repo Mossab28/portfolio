@@ -393,6 +393,7 @@ function buildSections(
               ),
               name: "AI Generative",
               issuer: "Microsoft",
+              link: "https://www.linkedin.com/learning/certificates/5b5281b684492aa1a1337b3128d78a276ff7214baafb905a8662ba6aaeec7d88",
             },
             {
               icon: (
@@ -405,6 +406,7 @@ function buildSections(
               ),
               name: "Build a Computer Vision App with Azure",
               issuer: "Microsoft",
+              link: null,
             },
             {
               icon: (
@@ -416,6 +418,7 @@ function buildSections(
               ),
               name: "Getting Started with AWS Generative AI",
               issuer: "AWS",
+              link: "https://www.coursera.org/account/accomplishments/verify/NML0N2TUUO4V",
             },
             {
               icon: (
@@ -427,6 +430,7 @@ function buildSections(
               ),
               name: "Build RAG Applications",
               issuer: "IBM",
+              link: "https://www.coursera.org/account/accomplishments/verify/JU6HGK3RB32O",
             },
             {
               icon: (
@@ -440,19 +444,40 @@ function buildSections(
               ),
               name: "Build Intelligent Agents Using DeepSeek & N8N",
               issuer: "Board Infinity",
+              link: "https://www.coursera.org/account/accomplishments/verify/JO22VAEMU1AO",
             },
-          ].map((c) => (
-            <div
-              key={c.name}
-              className="flex items-center gap-3 rounded-md border border-white/[0.06] bg-white/[0.02] px-3 py-2.5"
-            >
-              {c.icon}
-              <div>
-                <p className="text-xs text-sand">{c.name}</p>
-                <p className="text-[10px] text-white/40">{c.issuer}</p>
+          ].map((c) => {
+            const inner = (
+              <>
+                {c.icon}
+                <div className="flex-1">
+                  <p className="text-xs text-sand">{c.name}</p>
+                  <p className="text-[10px] text-white/40">{c.issuer}</p>
+                </div>
+                {c.link && (
+                  <svg className="h-3.5 w-3.5 shrink-0 text-white/20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                )}
+              </>
+            );
+            return c.link ? (
+              <a
+                key={c.name}
+                href={c.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 rounded-md border border-white/[0.06] bg-white/[0.02] px-3 py-2.5 transition-colors hover:border-bronze/30 hover:bg-white/[0.05]"
+              >
+                {inner}
+              </a>
+            ) : (
+              <div
+                key={c.name}
+                className="flex items-center gap-3 rounded-md border border-white/[0.06] bg-white/[0.02] px-3 py-2.5"
+              >
+                {inner}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       ),
     },
@@ -786,9 +811,9 @@ export default function MobileScrollView() {
           </h1>
         </motion.div>
 
-        {/* Avatar — mobile/tablet specific image, centered & large */}
+        {/* Avatar — mobile/tablet specific image, centered & scales UP on smaller screens */}
         <motion.div
-          className="absolute inset-0 z-10 flex items-center justify-center"
+          className="absolute inset-0 z-10"
           initial={{ opacity: 0, scale: 0.92 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
@@ -799,7 +824,7 @@ export default function MobileScrollView() {
               alt="Avatar"
               fill
               priority
-              className="object-contain object-center"
+              className="object-cover object-center"
               sizes="100vw"
             />
           </div>

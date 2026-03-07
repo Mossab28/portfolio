@@ -24,7 +24,7 @@ const SCENE_ICONS: SceneIcon[] = [
     id: "cubes",
     src: "/scene/icon-cubes.png",
     alt: "Cubes",
-    className: "left-[2%] top-[15%] w-10 md:left-[20%] md:top-[16%] md:w-20 lg:w-24",
+    className: "left-[0%] top-[14%] w-9 md:left-[6%] md:top-[15%] md:w-16 lg:left-[20%] lg:top-[16%] lg:w-24",
     depth: 40,
     label: "Projects",
     side: "left"
@@ -33,7 +33,7 @@ const SCENE_ICONS: SceneIcon[] = [
     id: "phone",
     src: "/scene/icon-phone.png",
     alt: "Phone",
-    className: "left-[1%] top-[33%] w-11 md:left-[18%] md:top-[34%] md:w-24 lg:w-28",
+    className: "left-[0%] top-[30%] w-10 md:left-[4%] md:top-[32%] md:w-16 lg:left-[18%] lg:top-[34%] lg:w-28",
     depth: 55,
     label: "Experience",
     side: "left"
@@ -42,7 +42,7 @@ const SCENE_ICONS: SceneIcon[] = [
     id: "text-card",
     src: "/scene/icon-text-card.png",
     alt: "Text Card",
-    className: "left-[1%] top-[51%] w-11 md:left-[20%] md:top-[54%] md:w-32 lg:w-36",
+    className: "left-[0%] top-[49%] w-10 md:left-[5%] md:top-[52%] md:w-20 lg:left-[20%] lg:top-[54%] lg:w-36",
     depth: 35,
     label: "Education",
     side: "left"
@@ -51,7 +51,7 @@ const SCENE_ICONS: SceneIcon[] = [
     id: "polyhedron",
     src: "/scene/icon-polyhedron.png",
     alt: "Polyhedron",
-    className: "right-[3%] top-[12%] w-10 md:right-auto md:left-[60%] md:top-[12%] md:w-20 lg:w-24",
+    className: "left-1/2 top-[10%] w-9 -translate-x-1/2 md:top-[10%] md:w-14 lg:left-[60%] lg:top-[12%] lg:w-24",
     depth: 25,
     label: "About",
     side: "right"
@@ -60,7 +60,7 @@ const SCENE_ICONS: SceneIcon[] = [
     id: "toggle-stack",
     src: "/scene/icon-toggle-stack.png",
     alt: "Toggle Stack",
-    className: "right-[1%] top-[28%] w-11 md:right-[20%] md:top-[22%] md:w-24 lg:w-28",
+    className: "right-[0%] top-[24%] w-10 md:right-[6%] md:top-[22%] md:w-16 lg:right-[20%] lg:top-[22%] lg:w-28",
     depth: 50,
     label: "Tech Stack & Skills",
     side: "right"
@@ -69,7 +69,7 @@ const SCENE_ICONS: SceneIcon[] = [
     id: "palette",
     src: "/scene/icon-palette.png",
     alt: "Palette",
-    className: "right-[1%] top-[44%] w-11 md:right-[18%] md:top-[40%] md:w-24 lg:w-28",
+    className: "right-[0%] top-[40%] w-10 md:right-[5%] md:top-[40%] md:w-16 lg:right-[18%] lg:top-[40%] lg:w-28",
     depth: 45,
     label: "Passions",
     side: "right"
@@ -78,7 +78,7 @@ const SCENE_ICONS: SceneIcon[] = [
     id: "ai",
     src: "/scene/icon-ai.png",
     alt: "AI",
-    className: "right-[1%] top-[58%] w-11 md:right-[20%] md:top-[62%] md:w-24 lg:w-28",
+    className: "right-[0%] top-[56%] w-10 md:right-[6%] md:top-[60%] md:w-16 lg:right-[20%] lg:top-[62%] lg:w-28",
     depth: 60,
     label: "AI & Innovation",
     side: "right"
@@ -87,7 +87,7 @@ const SCENE_ICONS: SceneIcon[] = [
     id: "dots",
     src: "/scene/icon-color-dots.png",
     alt: "Color Dots",
-    className: "left-[4%] top-[67%] w-9 md:left-[28%] md:top-[70%] md:w-[4.5rem] lg:w-20",
+    className: "left-[2%] top-[69%] w-8 md:left-[8%] md:top-[72%] md:w-12 lg:left-[28%] lg:top-[70%] lg:w-20",
     depth: 20,
     label: "Certifications",
     side: "left"
@@ -329,13 +329,14 @@ function getSectionContent(onPreview: (url: string) => void, lang: Lang): Record
     dots: (
       <div className="space-y-4">
         <div className="space-y-2">
-          <div className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3">
+          <a href="https://www.linkedin.com/learning/certificates/5b5281b684492aa1a1337b3128d78a276ff7214baafb905a8662ba6aaeec7d88" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3 transition-colors hover:border-bronze/30 hover:bg-white/[0.05]">
             <svg className="h-9 w-9 shrink-0" viewBox="0 0 21 21"><rect width="10" height="10" fill="#f25022"/><rect x="11" width="10" height="10" fill="#7fba00"/><rect width="10" height="10" y="11" fill="#00a4ef"/><rect x="11" y="11" width="10" height="10" fill="#ffb900"/></svg>
-            <div>
+            <div className="flex-1">
               <p className="text-sm text-sand">AI Generative</p>
               <p className="text-xs text-white/40">Microsoft</p>
             </div>
-          </div>
+            <svg className="h-4 w-4 shrink-0 text-white/20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+          </a>
           <div className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3">
             <svg className="h-9 w-9 shrink-0" viewBox="0 0 21 21"><rect width="10" height="10" fill="#f25022"/><rect x="11" width="10" height="10" fill="#7fba00"/><rect width="10" height="10" y="11" fill="#00a4ef"/><rect x="11" y="11" width="10" height="10" fill="#ffb900"/></svg>
             <div>
@@ -343,31 +344,34 @@ function getSectionContent(onPreview: (url: string) => void, lang: Lang): Record
               <p className="text-xs text-white/40">Microsoft</p>
             </div>
           </div>
-          <div className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3">
+          <a href="https://www.coursera.org/account/accomplishments/verify/NML0N2TUUO4V" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3 transition-colors hover:border-bronze/30 hover:bg-white/[0.05]">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#232F3E]">
               <span className="text-[11px] font-black tracking-tight text-[#FF9900]">aws</span>
             </div>
-            <div>
+            <div className="flex-1">
               <p className="text-sm text-sand">Getting Started with AWS Generative AI for Developers</p>
               <p className="text-xs text-white/40">AWS</p>
             </div>
-          </div>
-          <div className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3">
+            <svg className="h-4 w-4 shrink-0 text-white/20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+          </a>
+          <a href="https://www.coursera.org/account/accomplishments/verify/JU6HGK3RB32O" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3 transition-colors hover:border-bronze/30 hover:bg-white/[0.05]">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#0F62FE]/15">
               <span className="text-sm font-black tracking-wider text-[#0F62FE]">IBM</span>
             </div>
-            <div>
+            <div className="flex-1">
               <p className="text-sm text-sand">Build RAG Applications</p>
               <p className="text-xs text-white/40">IBM</p>
             </div>
-          </div>
-          <div className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3">
+            <svg className="h-4 w-4 shrink-0 text-white/20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+          </a>
+          <a href="https://www.coursera.org/account/accomplishments/verify/JO22VAEMU1AO" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3 transition-colors hover:border-bronze/30 hover:bg-white/[0.05]">
             <Image src="/scene/board infinity logo.jpg" alt="Board Infinity" width={40} height={40} className="h-10 w-10 shrink-0 rounded-md object-contain" />
-            <div>
+            <div className="flex-1">
               <p className="text-sm text-sand">Build Intelligent Agents Using DeepSeek &amp; N8N</p>
               <p className="text-xs text-white/40">Board Infinity</p>
             </div>
-          </div>
+            <svg className="h-4 w-4 shrink-0 text-white/20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+          </a>
         </div>
       </div>
     )
@@ -456,9 +460,8 @@ function LangSwitcher({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => voi
 
 const sceneVariants = {
   idle: { x: "0%", scale: 1 },
-  slideLeft: { x: "-30%", scale: 0.92 },
-  slideRight: { x: "30%", scale: 0.92 },
-  mobileActive: { x: "0%", scale: 0.85 }
+  shiftLeft: { x: "-18%", scale: 0.88 },
+  shiftRight: { x: "18%", scale: 0.88 },
 };
 
 /* ── Mobile burger menu ── */
@@ -519,12 +522,6 @@ function MobileMenu({ lang, setLang, onContact }: { lang: Lang; setLang: (l: Lan
   );
 }
 
-const panelVariants = {
-  hiddenRight: { x: "100%", opacity: 0 },
-  hiddenLeft: { x: "-100%", opacity: 0 },
-  visible: { x: "0%", opacity: 1 }
-};
-
 const springTransition = {
   type: "spring" as const,
   stiffness: 80,
@@ -537,43 +534,31 @@ export default function HeroScene() {
   const { x, y } = useMouseParallax(sectionRef, { enabled: true });
 
   const [activeIcon, setActiveIcon] = useState<SceneIcon | null>(null);
+  const [panelSide, setPanelSide] = useState<IconSide | null>(null);
+  const [isWide, setIsWide] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [showContact, setShowContact] = useState(false);
   const [lang, setLang] = useState<Lang>("en");
-  const [isMobile, setIsMobile] = useState(false);
   const isOpen = !!activeIcon;
 
   useEffect(() => {
-    const mql = window.matchMedia("(max-width: 767px)");
-    setIsMobile(mql.matches);
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    mql.addEventListener("change", handler);
-    return () => mql.removeEventListener("change", handler);
+    const check = () => setIsWide(window.innerWidth > 1340);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
   }, []);
 
   const sectionContent = getSectionContent(setPreviewUrl, lang);
 
   const handleIconClick = useCallback((icon: SceneIcon) => {
     setActiveIcon(icon);
+    setPanelSide(icon.side);
   }, []);
 
   const handleClose = useCallback(() => {
     setActiveIcon(null);
+    setPanelSide(null);
   }, []);
-
-  const slideDirection = activeIcon
-    ? isMobile
-      ? "mobileActive"
-      : activeIcon.side === "right" || activeIcon.side === "center"
-        ? "slideLeft"
-        : "slideRight"
-    : "idle";
-
-  const panelSide = activeIcon
-    ? activeIcon.side === "right" || activeIcon.side === "center"
-      ? "right"
-      : "left"
-    : null;
 
   const avatarX = useTransform(x, (v) => v * 12);
   const avatarY = useTransform(y, (v) => v * 12);
@@ -583,7 +568,13 @@ export default function HeroScene() {
       <motion.div
         className="absolute inset-0"
         variants={sceneVariants}
-        animate={slideDirection}
+        animate={
+          isWide && panelSide === "left"
+            ? "shiftRight"
+            : isWide && panelSide === "right"
+              ? "shiftLeft"
+              : "idle"
+        }
         transition={springTransition}
       >
         <div className="absolute inset-0 bg-black" />
@@ -606,7 +597,25 @@ export default function HeroScene() {
             fill
             priority
             fetchPriority="high"
-            className="object-contain object-center"
+            className="object-contain object-center scale-[1.05] translate-y-[4%] min-[501px]:scale-[1.2] md:hidden"
+            sizes="100vw"
+          />
+          <Image
+            src="/scene/background-tablet-mobile.png"
+            alt="Avatar tablet"
+            fill
+            priority
+            fetchPriority="high"
+            className="hidden object-contain object-center scale-[1.08] translate-y-[2%] md:block lg:hidden"
+            sizes="100vw"
+          />
+          <Image
+            src="/scene/background-main.png"
+            alt="Avatar desktop"
+            fill
+            priority
+            fetchPriority="high"
+            className="hidden object-contain object-center lg:block"
             sizes="100vw"
           />
         </motion.div>
@@ -648,49 +657,20 @@ export default function HeroScene() {
 
       {/* Content panel */}
       <AnimatePresence>
-        {activeIcon && (isMobile || panelSide) && (
+        {activeIcon && panelSide && isWide && (
+          /* ── Wide (>1340px): side-sliding panel with padding ── */
           <motion.div
             key={activeIcon.id}
-            className={
-              isMobile
-                ? "absolute bottom-0 left-0 right-0 z-40"
-                : `absolute top-0 z-40 flex h-full w-[55%] flex-col justify-center px-10 md:px-16 ${
-                    panelSide === "right" ? "right-0" : "left-0"
-                  }`
-            }
-            initial={
-              isMobile
-                ? { y: "100%", opacity: 0 }
-                : panelSide === "right"
-                  ? { x: "100%", opacity: 0 }
-                  : { x: "-100%", opacity: 0 }
-            }
-            animate={
-              isMobile
-                ? { y: "0%", opacity: 1 }
-                : { x: "0%", opacity: 1 }
-            }
-            exit={
-              isMobile
-                ? { y: "100%", opacity: 0 }
-                : panelSide === "right"
-                  ? { x: "100%", opacity: 0 }
-                  : { x: "-100%", opacity: 0 }
-            }
+            className={`fixed z-[60] flex flex-col ${
+              panelSide === "left" ? "left-4" : "right-4"
+            }`}
+            style={{ width: "46vw", top: "1rem", bottom: "1rem" }}
+            initial={{ x: panelSide === "left" ? "-110%" : "110%", opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: panelSide === "left" ? "-110%" : "110%", opacity: 0 }}
             transition={springTransition}
           >
-            {/* Drag handle (mobile) */}
-            {isMobile && (
-              <div className="flex justify-center pt-3 pb-1 bg-transparent" onClick={handleClose}>
-                <div className="h-1 w-10 rounded-full bg-white/25" />
-              </div>
-            )}
-
-            <div className={`glass-panel relative overflow-y-auto shadow-ambient ${
-              isMobile
-                ? "max-h-[85vh] rounded-b-none rounded-t-3xl p-5 pb-10"
-                : "max-h-[80vh] p-8 md:p-12"
-            }`}>
+            <div className="glass-panel relative flex h-full w-full flex-col overflow-hidden rounded-2xl p-8 lg:p-10 shadow-ambient border border-white/[0.06]">
               <button
                 type="button"
                 onClick={handleClose}
@@ -700,18 +680,18 @@ export default function HeroScene() {
               </button>
 
               <div className="mb-4 flex items-center gap-3">
-                <Image src={activeIcon.src} alt={activeIcon.alt} width={40} height={40} className="h-7 w-7 object-contain md:h-10 md:w-10" />
+                <Image src={activeIcon.src} alt={activeIcon.alt} width={40} height={40} className="h-10 w-10 object-contain" />
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.3em] text-bronze md:text-xs">
+                  <p className="text-xs uppercase tracking-[0.3em] text-bronze">
                     {getIconLabel(activeIcon.id, lang)}
                   </p>
-                  <h2 className="font-[var(--font-display)] text-xl font-semibold text-sand md:text-3xl lg:text-4xl">
+                  <h2 className="font-[var(--font-display)] text-2xl font-semibold text-sand lg:text-4xl">
                     {getIconLabel(activeIcon.id, lang)}
                   </h2>
                 </div>
               </div>
 
-              <div className="text-sm leading-relaxed text-white/60 md:text-lg">
+              <div className="flex-1 overflow-y-auto pr-1 text-base leading-relaxed text-white/60 lg:text-lg">
                 {sectionContent[activeIcon.id] ?? (
                   <p>{t("comingSoonFor", lang)} <span className="text-sand">{getIconLabel(activeIcon.id, lang)}</span>.</p>
                 )}
@@ -719,19 +699,61 @@ export default function HeroScene() {
             </div>
           </motion.div>
         )}
-      </AnimatePresence>
 
-      {/* Click-away overlay */}
-      <AnimatePresence>
-        {activeIcon && (
+        {activeIcon && !isWide && (
+          /* ── Narrow (1024–1340px): centered popup ── */
           <motion.div
-            className="absolute inset-0 z-[35] bg-black/50 md:bg-transparent"
+            key={`center-${activeIcon.id}`}
+            className="fixed inset-0 z-[60] flex items-center justify-center p-8"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            onClick={handleClose}
-          />
+          >
+            {/* Backdrop */}
+            <motion.div
+              className="absolute inset-0 bg-black/60"
+              onClick={handleClose}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            />
+            <motion.div
+              className="relative z-10 flex max-h-[85vh] w-full max-w-2xl flex-col"
+              initial={{ scale: 0.92, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.92, opacity: 0 }}
+              transition={springTransition}
+            >
+              <div className="glass-panel relative flex h-full w-full flex-col overflow-hidden rounded-2xl p-8 shadow-ambient">
+                <button
+                  type="button"
+                  onClick={handleClose}
+                  className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-sand/70 transition-colors hover:bg-white/10 hover:text-sand"
+                >
+                  ✕
+                </button>
+
+                <div className="mb-4 flex items-center gap-3">
+                  <Image src={activeIcon.src} alt={activeIcon.alt} width={40} height={40} className="h-10 w-10 object-contain" />
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.3em] text-bronze">
+                      {getIconLabel(activeIcon.id, lang)}
+                    </p>
+                    <h2 className="font-[var(--font-display)] text-2xl font-semibold text-sand lg:text-4xl">
+                      {getIconLabel(activeIcon.id, lang)}
+                    </h2>
+                  </div>
+                </div>
+
+                <div className="flex-1 overflow-y-auto pr-1 text-base leading-relaxed text-white/60 lg:text-lg">
+                  {sectionContent[activeIcon.id] ?? (
+                    <p>{t("comingSoonFor", lang)} <span className="text-sand">{getIconLabel(activeIcon.id, lang)}</span>.</p>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
 
@@ -773,7 +795,7 @@ export default function HeroScene() {
       <AnimatePresence>
         {!isOpen && (
           <motion.div
-            className="absolute top-4 right-4 z-30 md:hidden"
+            className="absolute right-4 top-4 z-30 hidden md:block lg:hidden"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10, transition: { duration: 0.2 } }}
@@ -788,7 +810,7 @@ export default function HeroScene() {
       <AnimatePresence>
         {!isOpen && (
           <motion.div
-            className="absolute bottom-6 left-8 z-30 hidden md:block"
+            className="absolute bottom-6 left-8 z-30 hidden lg:block"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10, transition: { duration: 0.2 } }}
@@ -803,7 +825,7 @@ export default function HeroScene() {
       <AnimatePresence>
         {!isOpen && (
           <motion.div
-            className="absolute bottom-6 right-8 z-30 hidden md:flex items-center gap-4"
+            className="absolute bottom-6 right-8 z-30 hidden items-center gap-4 lg:flex"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10, transition: { duration: 0.2 } }}

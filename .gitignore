@@ -11,6 +11,8 @@
 # misc
 .DS_Store
 *.pem
+.vercel
+/extracted_assets_earth_tones
 
 # debug
 npm-debug.log*
