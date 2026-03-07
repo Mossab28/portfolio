@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useState, useEffect, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import { t, getIconLabel, type Lang } from "@/lib/i18n";
 
 /* ── Language flags ── */
@@ -11,14 +11,14 @@ const LANG_ORDER: Lang[] = ["en", "fr", "ko"];
 
 /* ── Scattered icon positions — around center, avoiding title band ── */
 const MOBILE_ICONS = [
-  { id: "polyhedron", src: "/scene/icon-polyhedron.png", left: "22%", top: "10%", depth: 25 },
-  { id: "text-card", src: "/scene/icon-text-card.png", left: "72%", top: "8%", depth: 35 },
-  { id: "phone", src: "/scene/icon-phone.png", left: "14%", top: "30%", depth: 55 },
-  { id: "dots", src: "/scene/icon-color-dots.png", left: "76%", top: "32%", depth: 20 },
-  { id: "toggle-stack", src: "/scene/icon-toggle-stack.png", left: "12%", top: "60%", depth: 50 },
-  { id: "cubes", src: "/scene/icon-cubes.png", left: "78%", top: "58%", depth: 40 },
-  { id: "ai", src: "/scene/icon-ai.png", left: "18%", top: "78%", depth: 60 },
-  { id: "palette", src: "/scene/icon-palette.png", left: "72%", top: "76%", depth: 45 },
+  { id: "polyhedron", src: "/scene/icon-polyhedron.png", sectionId: "about", left: "22%", top: "10%", floatDelay: 0 },
+  { id: "text-card", src: "/scene/icon-text-card.png", sectionId: "education", left: "72%", top: "8%", floatDelay: 0.5 },
+  { id: "phone", src: "/scene/icon-phone.png", sectionId: "experience", left: "14%", top: "30%", floatDelay: 1.2 },
+  { id: "dots", src: "/scene/icon-color-dots.png", sectionId: "certifications", left: "76%", top: "32%", floatDelay: 0.8 },
+  { id: "toggle-stack", src: "/scene/icon-toggle-stack.png", sectionId: "tech-stack", left: "12%", top: "60%", floatDelay: 1.5 },
+  { id: "cubes", src: "/scene/icon-cubes.png", sectionId: "projects", left: "78%", top: "58%", floatDelay: 0.3 },
+  { id: "ai", src: "/scene/icon-ai.png", sectionId: "ai", left: "18%", top: "78%", floatDelay: 1.8 },
+  { id: "palette", src: "/scene/icon-palette.png", sectionId: "passions", left: "72%", top: "76%", floatDelay: 1.0 },
 ];
 
 /* ── Section definition ── */
@@ -580,251 +580,235 @@ function buildSections(
   ];
 }
 
+/* ── Scroll-animated section wrapper ── */
+function ScrollSection({ children }: { children: ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: false, amount: 0.2 });
+  return (
+    <div ref={ref} className="flex items-center justify-center px-4 py-14">
+      <motion.div
+        className="w-full max-w-lg"
+        initial={{ opacity: 0, y: 50 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+      >
+        {children}
+      </motion.div>
+    </div>
+  );
+}
+
 /* ── Main MobileScrollView ── */
 export default function MobileScrollView() {
   const [lang, setLang] = useState<Lang>("en");
   const [showContact, setShowContact] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [activeSection, setActiveSection] = useState<string | null>(null);
   const [langOpen, setLangOpen] = useState(false);
-
-  /* ── Touch-drag parallax state ── */
-  const [parallax, setParallax] = useState({ x: 0, y: 0 });
-  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
-  const isDraggingRef = useRef(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-
-    const onTouchStart = (e: TouchEvent) => {
-      const touch = e.touches[0];
-      touchStartRef.current = { x: touch.clientX, y: touch.clientY };
-      isDraggingRef.current = false;
-    };
-
-    const onTouchMove = (e: TouchEvent) => {
-      if (!touchStartRef.current) return;
-      e.preventDefault();
-      const touch = e.touches[0];
-      const dx = (touch.clientX - touchStartRef.current.x) * 0.15;
-      const dy = (touch.clientY - touchStartRef.current.y) * 0.15;
-      if (Math.abs(dx) > 1 || Math.abs(dy) > 1) isDraggingRef.current = true;
-      setParallax({ x: dx, y: dy });
-    };
-
-    const onTouchEnd = () => {
-      touchStartRef.current = null;
-      setParallax({ x: 0, y: 0 });
-    };
-
-    el.addEventListener("touchstart", onTouchStart, { passive: true });
-    el.addEventListener("touchmove", onTouchMove, { passive: false });
-    el.addEventListener("touchend", onTouchEnd, { passive: true });
-
-    return () => {
-      el.removeEventListener("touchstart", onTouchStart);
-      el.removeEventListener("touchmove", onTouchMove);
-      el.removeEventListener("touchend", onTouchEnd);
-    };
-  }, []);
 
   const sections = buildSections(lang, setPreviewUrl);
 
-  const openSection = (iconId: string) => {
-    const section = sections.find((s) => s.iconId === iconId);
-    if (section) setActiveSection(section.id);
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(`section-${id}`);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
-  const activeSectionData = sections.find((s) => s.id === activeSection);
-
   return (
-    <div
-      ref={containerRef}
-      className="relative h-[100dvh] overflow-hidden bg-obsidian"
-      style={{ touchAction: "none" }}
-    >
-      {/* Background image */}
-      <div className="pointer-events-none absolute inset-0 z-0">
-        <Image
-          src="/scene/background%20mobile.png"
-          alt=""
-          fill
-          priority
-          className="object-cover object-center"
-          sizes="100vw"
-        />
-      </div>
-
-      {/* ── Title — centered with typewriter animation ── */}
-      <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
-        <h1 className="font-[var(--font-display)] text-[2rem] font-semibold tracking-[0.10em] text-bronze/80 text-center leading-tight drop-shadow-[0_2px_16px_rgba(183,138,89,0.3)]">
-          {t("portfolioTitle", lang).split("").map((char, i) => (
-            <motion.span
-              key={`${lang}-${i}`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.04, delay: 0.4 + i * 0.06 }}
-            >
-              {char}
-            </motion.span>
-          ))}
-          <span
-            className="inline-block w-[2px] h-[1.1em] bg-bronze/60 align-middle ml-0.5 animate-blink"
-          />
-        </h1>
-      </div>
-
-      {/* ── Scattered icons with touch parallax ── */}
-      {MOBILE_ICONS.map((icon, i) => (
-        <motion.button
-          key={icon.id}
-          type="button"
-          onClick={() => { if (!isDraggingRef.current) openSection(icon.id); }}
-          className="absolute z-20 flex flex-col items-center gap-1.5 -translate-x-1/2 -translate-y-1/2 group"
-          style={{
-            left: icon.left,
-            top: icon.top,
-          }}
-          animate={{
-            x: parallax.x * (icon.depth / 40),
-            y: parallax.y * (icon.depth / 40),
-          }}
-          transition={{ type: "spring", stiffness: 120, damping: 20 }}
-          initial={{ opacity: 0, scale: 0 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          whileTap={{ scale: 0.9 }}
-        >
+    <div className="relative min-h-[100dvh] overflow-x-hidden bg-obsidian">
+      {/* ── Hero — full viewport ── */}
+      <div className="relative h-[100dvh] overflow-hidden">
+        {/* Background image */}
+        <div className="pointer-events-none absolute inset-0 z-0">
           <Image
-            src={icon.src}
-            alt={getIconLabel(icon.id, lang)}
-            width={72}
-            height={72}
-            className="h-[4.5rem] w-[4.5rem] object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]"
+            src="/scene/background%20mobile.png"
+            alt=""
+            fill
+            priority
+            className="object-cover object-center"
+            sizes="100vw"
           />
-          <span className="text-[9px] tracking-wide text-white/40 text-center max-w-[70px] leading-tight">
-            {getIconLabel(icon.id, lang)}
-          </span>
-        </motion.button>
-      ))}
-
-      {/* ── Bottom bar ── */}
-      <div className="absolute bottom-0 left-0 right-0 z-30 flex items-center justify-between px-3 pb-4 pt-8 bg-gradient-to-t from-obsidian via-obsidian/80 to-transparent">
-        {/* Language switcher — compact dropdown */}
-        <div className="relative">
-          <button
-            type="button"
-            onClick={() => setLangOpen((p) => !p)}
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-bronze/40 bg-bronze/15 text-sm"
-          >
-            {FLAGS[lang]}
-          </button>
-          <AnimatePresence>
-            {langOpen && (
-              <motion.div
-                className="absolute bottom-10 left-0 flex flex-col gap-1 rounded-xl border border-white/10 bg-obsidian/95 backdrop-blur-md p-1.5 shadow-xl"
-                initial={{ opacity: 0, y: 6, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 6, scale: 0.9 }}
-                transition={{ duration: 0.15 }}
-              >
-                {LANG_ORDER.filter((l) => l !== lang).map((l) => (
-                  <button
-                    key={l}
-                    type="button"
-                    onClick={() => { setLang(l); setLangOpen(false); }}
-                    className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-sm transition-all hover:bg-white/10"
-                  >
-                    {FLAGS[l]}
-                  </button>
-                ))}
-              </motion.div>
-            )}
-          </AnimatePresence>
         </div>
 
-        {/* Click hint */}
-        <p className="text-[10px] tracking-[0.12em] text-white/30">
-          {t("clickToExplore", lang)}
-        </p>
+        {/* ── Title — centered with typewriter animation ── */}
+        <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
+          <h1 className="font-[var(--font-display)] text-[2rem] font-semibold tracking-[0.10em] text-bronze/80 text-center leading-tight drop-shadow-[0_2px_16px_rgba(183,138,89,0.3)]">
+            {t("portfolioTitle", lang).split("").map((char, i) => (
+              <motion.span
+                key={`${lang}-${i}`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.04, delay: 0.4 + i * 0.06 }}
+              >
+                {char}
+              </motion.span>
+            ))}
+            <span className="inline-block w-[2px] h-[1.1em] bg-bronze/60 align-middle ml-0.5 animate-blink" />
+          </h1>
+        </div>
 
-        {/* Links */}
-        <div className="flex items-center gap-2">
-          <a
-            href="https://github.com/aminssutt"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-white/5"
-          >
-            <svg className="h-3.5 w-3.5 text-sand/70" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
-            </svg>
-          </a>
-          <a
-            href="https://www.linkedin.com/in/lakhdar-berache-62095426a/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-white/5"
-          >
-            <svg className="h-3.5 w-3.5 text-sand/70" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-            </svg>
-          </a>
-          <button
+        {/* ── Floating icons ── */}
+        {MOBILE_ICONS.map((icon) => (
+          <motion.button
+            key={icon.id}
             type="button"
-            onClick={() => setShowContact(true)}
-            className="rounded-full border border-bronze/30 bg-bronze/10 px-3 py-1.5 text-[9px] font-medium tracking-wider text-bronze"
+            onClick={() => scrollToSection(icon.sectionId)}
+            className="absolute z-20 flex flex-col items-center gap-1.5 -translate-x-1/2 -translate-y-1/2 group"
+            style={{ left: icon.left, top: icon.top }}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+              y: [0, -8, 0, 6, 0],
+              x: [0, 4, 0, -4, 0],
+            }}
+            transition={{
+              opacity: { duration: 0.4, delay: 0.3 + icon.floatDelay * 0.3 },
+              scale: { duration: 0.4, delay: 0.3 + icon.floatDelay * 0.3, type: "spring", stiffness: 200, damping: 18 },
+              y: { repeat: Infinity, duration: 4 + icon.floatDelay, ease: "easeInOut", delay: icon.floatDelay },
+              x: { repeat: Infinity, duration: 5 + icon.floatDelay, ease: "easeInOut", delay: icon.floatDelay + 0.5 },
+            }}
+            whileTap={{ scale: 0.9 }}
           >
-            Freelance
-          </button>
+            <Image
+              src={icon.src}
+              alt={getIconLabel(icon.id, lang)}
+              width={72}
+              height={72}
+              className="h-[4.5rem] w-[4.5rem] object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]"
+            />
+            <span className="text-[9px] tracking-wide text-white/40 text-center max-w-[70px] leading-tight">
+              {getIconLabel(icon.id, lang)}
+            </span>
+          </motion.button>
+        ))}
+
+        {/* ── Bottom bar (fixed in hero) ── */}
+        <div className="absolute bottom-0 left-0 right-0 z-30 flex items-center justify-between px-3 pb-4 pt-8 bg-gradient-to-t from-obsidian via-obsidian/80 to-transparent">
+          {/* Language switcher */}
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setLangOpen((p) => !p)}
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-bronze/40 bg-bronze/15 text-sm"
+            >
+              {FLAGS[lang]}
+            </button>
+            <AnimatePresence>
+              {langOpen && (
+                <motion.div
+                  className="absolute bottom-10 left-0 flex flex-col gap-1 rounded-xl border border-white/10 bg-obsidian/95 backdrop-blur-md p-1.5 shadow-xl"
+                  initial={{ opacity: 0, y: 6, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 6, scale: 0.9 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  {LANG_ORDER.filter((l) => l !== lang).map((l) => (
+                    <button
+                      key={l}
+                      type="button"
+                      onClick={() => { setLang(l); setLangOpen(false); }}
+                      className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-sm transition-all hover:bg-white/10"
+                    >
+                      {FLAGS[l]}
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Scroll hint */}
+          <div className="flex flex-col items-center gap-1">
+            <p className="text-[10px] tracking-[0.12em] text-white/30">
+              {t("clickToExplore", lang)}
+            </p>
+            <motion.div
+              animate={{ y: [0, 4, 0] }}
+              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+            >
+              <svg className="h-4 w-4 text-bronze/40" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
+              </svg>
+            </motion.div>
+          </div>
+
+          {/* Links */}
+          <div className="flex items-center gap-2">
+            <a
+              href="https://github.com/aminssutt"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-white/5"
+            >
+              <svg className="h-3.5 w-3.5 text-sand/70" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+              </svg>
+            </a>
+            <a
+              href="https://www.linkedin.com/in/lakhdar-berache-62095426a/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-white/5"
+            >
+              <svg className="h-3.5 w-3.5 text-sand/70" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+              </svg>
+            </a>
+            <button
+              type="button"
+              onClick={() => setShowContact(true)}
+              className="rounded-full border border-bronze/30 bg-bronze/10 px-3 py-1.5 text-[9px] font-medium tracking-wider text-bronze"
+            >
+              Freelance
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* ── Section popup ── */}
-      <AnimatePresence>
-        {activeSection && activeSectionData && (
-          <motion.div
-            className="fixed inset-0 z-[90] flex items-center justify-center bg-black/80 backdrop-blur-sm"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            onClick={() => setActiveSection(null)}
-          >
-            <motion.div
-              className="relative mx-3 w-full max-w-md max-h-[80vh] overflow-y-auto rounded-2xl border border-white/10 bg-obsidian p-5 shadow-2xl"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: "spring", stiffness: 200, damping: 25 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                type="button"
-                onClick={() => setActiveSection(null)}
-                className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full text-white/40 transition-colors hover:bg-white/10 hover:text-sand z-10"
-              >
-                ✕
-              </button>
-              {/* Section header */}
+      {/* ── Scroll sections ── */}
+      {sections.map((section) => (
+        <div key={section.id} id={`section-${section.id}`}>
+          <ScrollSection>
+            <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-sm p-5">
               <div className="mb-3 flex items-center gap-2">
                 <span className="text-[8px] text-bronze/50">◆</span>
                 <p className="text-[10px] uppercase tracking-[0.3em] text-bronze">
-                  {getIconLabel(activeSectionData.iconId, lang)}
+                  {getIconLabel(section.iconId, lang)}
                 </p>
               </div>
               <h2 className="mb-4 font-[var(--font-display)] text-xl font-semibold text-sand">
-                {getIconLabel(activeSectionData.iconId, lang)}
+                {getIconLabel(section.iconId, lang)}
               </h2>
               <div className="text-sm leading-relaxed text-white/60">
-                {activeSectionData.content}
+                {section.content}
               </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </div>
+          </ScrollSection>
+        </div>
+      ))}
+
+      {/* ── Footer ── */}
+      <div className="flex min-h-[30vh] flex-col items-center justify-center gap-4 px-6 py-12">
+        <h2 className="font-[var(--font-display)] text-lg font-semibold text-sand">
+          {t("getInTouch", lang)}
+        </h2>
+        <p className="max-w-xs text-center text-xs text-white/40">
+          {t("contactDesc", lang)}
+        </p>
+        <div className="flex flex-col gap-2 w-full max-w-xs">
+          <a
+            href="mailto:lakhdarberache@gmail.com"
+            className="flex items-center gap-3 rounded-lg border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-xs text-sand transition-colors hover:border-bronze/30"
+          >
+            lakhdarberache@gmail.com
+          </a>
+          <a
+            href="tel:+33781500771"
+            className="flex items-center gap-3 rounded-lg border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-xs text-sand transition-colors hover:border-bronze/30"
+          >
+            +33 7 81 50 07 71
+          </a>
+        </div>
+      </div>
 
       {/* Contact modal */}
       <AnimatePresence>
