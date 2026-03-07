@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useCallback, useEffect, type ReactNode } from "react";
+import { useRef, useState, useEffect, type ReactNode } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { t, getIconLabel, type Lang } from "@/lib/i18n";
@@ -591,23 +591,43 @@ export default function MobileScrollView() {
   /* ── Touch-drag parallax state ── */
   const [parallax, setParallax] = useState({ x: 0, y: 0 });
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+  const isDraggingRef = useRef(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    const touch = e.touches[0];
-    touchStartRef.current = { x: touch.clientX, y: touch.clientY };
-  }, []);
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
 
-  const handleTouchMove = useCallback((e: React.TouchEvent) => {
-    if (!touchStartRef.current) return;
-    const touch = e.touches[0];
-    const dx = (touch.clientX - touchStartRef.current.x) * 0.15;
-    const dy = (touch.clientY - touchStartRef.current.y) * 0.15;
-    setParallax({ x: dx, y: dy });
-  }, []);
+    const onTouchStart = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+      isDraggingRef.current = false;
+    };
 
-  const handleTouchEnd = useCallback(() => {
-    touchStartRef.current = null;
-    setParallax({ x: 0, y: 0 });
+    const onTouchMove = (e: TouchEvent) => {
+      if (!touchStartRef.current) return;
+      e.preventDefault();
+      const touch = e.touches[0];
+      const dx = (touch.clientX - touchStartRef.current.x) * 0.15;
+      const dy = (touch.clientY - touchStartRef.current.y) * 0.15;
+      if (Math.abs(dx) > 1 || Math.abs(dy) > 1) isDraggingRef.current = true;
+      setParallax({ x: dx, y: dy });
+    };
+
+    const onTouchEnd = () => {
+      touchStartRef.current = null;
+      setParallax({ x: 0, y: 0 });
+    };
+
+    el.addEventListener("touchstart", onTouchStart, { passive: true });
+    el.addEventListener("touchmove", onTouchMove, { passive: false });
+    el.addEventListener("touchend", onTouchEnd, { passive: true });
+
+    return () => {
+      el.removeEventListener("touchstart", onTouchStart);
+      el.removeEventListener("touchmove", onTouchMove);
+      el.removeEventListener("touchend", onTouchEnd);
+    };
   }, []);
 
   const sections = buildSections(lang, setPreviewUrl);
@@ -621,11 +641,9 @@ export default function MobileScrollView() {
 
   return (
     <div
+      ref={containerRef}
       className="relative h-[100dvh] overflow-hidden bg-obsidian"
       style={{ touchAction: "none" }}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
     >
       {/* Background image */}
       <div className="pointer-events-none absolute inset-0 z-0">
@@ -637,12 +655,6 @@ export default function MobileScrollView() {
           className="object-cover object-center"
           sizes="100vw"
         />
-      </div>
-
-      {/* Background glow */}
-      <div className="pointer-events-none absolute inset-0 z-[1]">
-        <div className="absolute left-1/2 top-1/2 h-[60vh] w-[60vh] -translate-x-1/2 -translate-y-1/2 rounded-full bg-bronze/8 blur-[120px]" />
-        <div className="absolute left-1/2 top-1/2 h-[35vh] w-[35vh] -translate-x-1/2 -translate-y-1/2 rounded-full bg-copper/10 blur-[80px]" />
       </div>
 
       {/* ── Title — centered with typewriter animation ── */}
@@ -669,7 +681,7 @@ export default function MobileScrollView() {
         <motion.button
           key={icon.id}
           type="button"
-          onClick={() => openSection(icon.id)}
+          onClick={() => { if (!isDraggingRef.current) openSection(icon.id); }}
           className="absolute z-20 flex flex-col items-center gap-1.5 -translate-x-1/2 -translate-y-1/2 group"
           style={{
             left: icon.left,
