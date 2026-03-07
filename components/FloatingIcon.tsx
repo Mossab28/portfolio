@@ -57,10 +57,12 @@ export default function FloatingIcon({
           alt={alt}
           width={size}
           height={size}
+          loading="lazy"
+          quality={75}
           className="h-auto w-full select-none object-contain drop-shadow-[0_14px_32px_rgba(0,0,0,0.58)]"
         />
         <span
-          className={`pointer-events-none absolute top-1/2 -translate-y-1/2 whitespace-nowrap font-[var(--font-display)] text-sm font-semibold tracking-wide text-sand opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:text-base ${labelSide}`}
+          className={`pointer-events-none absolute top-1/2 -translate-y-1/2 whitespace-nowrap font-[var(--font-display)] text-sm font-semibold tracking-wide text-sand opacity-0 transition-opacity duration-300 group-hover:opacity-100 hidden md:block md:text-base ${labelSide}`}
         >
           {label}
         </span>

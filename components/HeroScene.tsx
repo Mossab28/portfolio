@@ -1,10 +1,11 @@
 "use client";
 
-import { useRef, useState, useCallback, type ReactNode } from "react";
+import { useRef, useState, useCallback, useEffect, type ReactNode } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence, useTransform } from "framer-motion";
 import FloatingIcon from "@/components/FloatingIcon";
 import { useMouseParallax } from "@/hooks/useMouseParallax";
+import { t, getIconLabel, type Lang } from "@/lib/i18n";
 
 type IconSide = "left" | "right" | "center";
 
@@ -23,7 +24,7 @@ const SCENE_ICONS: SceneIcon[] = [
     id: "cubes",
     src: "/scene/icon-cubes.png",
     alt: "Cubes",
-    className: "left-[16%] top-[14%] w-16 md:left-[20%] md:top-[16%] md:w-20 lg:w-24",
+    className: "left-[2%] top-[15%] w-10 md:left-[20%] md:top-[16%] md:w-20 lg:w-24",
     depth: 40,
     label: "Projects",
     side: "left"
@@ -32,7 +33,7 @@ const SCENE_ICONS: SceneIcon[] = [
     id: "phone",
     src: "/scene/icon-phone.png",
     alt: "Phone",
-    className: "left-[12%] top-[34%] w-20 md:left-[18%] md:top-[34%] md:w-24 lg:w-28",
+    className: "left-[1%] top-[33%] w-11 md:left-[18%] md:top-[34%] md:w-24 lg:w-28",
     depth: 55,
     label: "Experience",
     side: "left"
@@ -41,7 +42,7 @@ const SCENE_ICONS: SceneIcon[] = [
     id: "text-card",
     src: "/scene/icon-text-card.png",
     alt: "Text Card",
-    className: "left-[14%] top-[54%] w-24 md:left-[20%] md:top-[54%] md:w-32 lg:w-36",
+    className: "left-[1%] top-[51%] w-11 md:left-[20%] md:top-[54%] md:w-32 lg:w-36",
     depth: 35,
     label: "Education",
     side: "left"
@@ -50,7 +51,7 @@ const SCENE_ICONS: SceneIcon[] = [
     id: "polyhedron",
     src: "/scene/icon-polyhedron.png",
     alt: "Polyhedron",
-    className: "left-[58%] top-[10%] w-16 md:left-[60%] md:top-[12%] md:w-20 lg:w-24",
+    className: "right-[3%] top-[12%] w-10 md:right-auto md:left-[60%] md:top-[12%] md:w-20 lg:w-24",
     depth: 25,
     label: "About",
     side: "right"
@@ -59,7 +60,7 @@ const SCENE_ICONS: SceneIcon[] = [
     id: "toggle-stack",
     src: "/scene/icon-toggle-stack.png",
     alt: "Toggle Stack",
-    className: "right-[14%] top-[20%] w-20 md:right-[20%] md:top-[22%] md:w-24 lg:w-28",
+    className: "right-[1%] top-[28%] w-11 md:right-[20%] md:top-[22%] md:w-24 lg:w-28",
     depth: 50,
     label: "Tech Stack & Skills",
     side: "right"
@@ -68,17 +69,16 @@ const SCENE_ICONS: SceneIcon[] = [
     id: "palette",
     src: "/scene/icon-palette.png",
     alt: "Palette",
-    className: "right-[12%] top-[38%] w-20 md:right-[18%] md:top-[40%] md:w-24 lg:w-28",
+    className: "right-[1%] top-[44%] w-11 md:right-[18%] md:top-[40%] md:w-24 lg:w-28",
     depth: 45,
-    label: "Design",
+    label: "Passions",
     side: "right"
   },
-
   {
     id: "ai",
     src: "/scene/icon-ai.png",
     alt: "AI",
-    className: "right-[14%] top-[60%] w-20 md:right-[20%] md:top-[62%] md:w-24 lg:w-28",
+    className: "right-[1%] top-[58%] w-11 md:right-[20%] md:top-[62%] md:w-24 lg:w-28",
     depth: 60,
     label: "AI & Innovation",
     side: "right"
@@ -87,36 +87,38 @@ const SCENE_ICONS: SceneIcon[] = [
     id: "dots",
     src: "/scene/icon-color-dots.png",
     alt: "Color Dots",
-    className: "left-[24%] top-[70%] w-14 md:left-[28%] md:top-[70%] md:w-[4.5rem] lg:w-20",
+    className: "left-[4%] top-[67%] w-9 md:left-[28%] md:top-[70%] md:w-[4.5rem] lg:w-20",
     depth: 20,
-    label: "Passion",
+    label: "Certifications",
     side: "left"
   }
 ];
 
-/* ── Section content (function to allow preview callbacks) ── */
-function getSectionContent(onPreview: (url: string) => void): Record<string, ReactNode> {
+/* ── Section content ── */
+function getSectionContent(onPreview: (url: string) => void, lang: Lang): Record<string, ReactNode> {
   return {
     polyhedron: (
       <div className="space-y-4">
         <p>
-          Hello! I&apos;m <span className="text-sand">Lakhdar Berache</span>, an engineering student passionate about technological innovation.
-          I develop projects combining <span className="text-bronze">AI, data science, and web development</span>.
+          {t("about_hello", lang)} <span className="text-sand">Lakhdar Berache</span>{t("about_desc", lang)}{" "}
+          <span className="text-bronze">{t("about_skills", lang)}</span>{t("about_projects_combine", lang)}
         </p>
-        <p className="text-base text-white/55">Curious and adaptable, I aim to apply my skills in a stimulating and collaborative environment.</p>
+        <p className="text-base text-white/55">{t("about_sub", lang)}</p>
         <div className="mt-6 flex flex-wrap gap-3">
           <a href="https://github.com/aminssutt" target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs text-sand transition-colors hover:bg-white/10">GitHub</a>
           <a href="https://www.linkedin.com/in/lakhdar-berache-62095426a/" target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs text-sand transition-colors hover:bg-white/10">LinkedIn</a>
         </div>
         <div className="mt-6 space-y-2">
-          <p className="text-sm uppercase tracking-[0.2em] text-bronze">Languages</p>
+          <p className="text-sm uppercase tracking-[0.2em] text-bronze">{t("about_langTitle", lang)}</p>
           <div className="grid grid-cols-2 gap-2">
             {[
-              { lang: "French", pct: 100 }, { lang: "Arabic", pct: 95 },
-              { lang: "English", pct: 90 }, { lang: "Korean", pct: 30 }
+              { name: t("lang_french", lang), pct: 100 },
+              { name: t("lang_arabic", lang), pct: 95 },
+              { name: t("lang_english", lang), pct: 90 },
+              { name: t("lang_korean", lang), pct: 30 }
             ].map((l) => (
-              <div key={l.lang} className="space-y-1">
-                <span className="text-sm text-white/50">{l.lang}</span>
+              <div key={l.name} className="space-y-1">
+                <span className="text-sm text-white/50">{l.name}</span>
                 <div className="h-1 w-full rounded-full bg-white/10">
                   <div className="h-full rounded-full bg-bronze/70" style={{ width: `${l.pct}%` }} />
                 </div>
@@ -133,34 +135,34 @@ function getSectionContent(onPreview: (url: string) => void): Record<string, Rea
           {
             company: "Renault Korea",
             logoSrc: "/scene/renault logo.webp",
-            logoClass: "h-12 w-12",
-            role: "Software & AI Engineer Intern",
-            period: "Sep 2025 – Feb 2026 · South Korea",
+            logoClass: "h-12 w-12 md:h-20 md:w-20",
+            role: t("exp_renault_role", lang),
+            period: t("exp_renault_period", lang),
             bullets: [
-              "Connected health & fitness app with real-time 3D avatar and AI-driven recommendations (IoT data).",
-              "AI-powered podcast generation platform with NLP & TTS models.",
-              "In-car Theme Store app for dashboard personalization.",
-              "Personalized in-car AI assistant with LLM, RAG, multi-channel APIs (Spotify, calendar, email, calls).",
+              t("exp_renault_b1", lang),
+              t("exp_renault_b2", lang),
+              t("exp_renault_b3", lang),
+              t("exp_renault_b4", lang),
             ]
           },
           {
             company: "FabulousCreations Studio",
             logoSrc: "/scene/logo fabulous.png",
-            logoClass: "h-20 w-20",
-            role: "Web Developer",
-            period: "Jan 2025 – Ongoing · Paris",
+            logoClass: "h-12 w-12 md:h-20 md:w-20",
+            role: t("exp_fabulous_role", lang),
+            period: t("exp_fabulous_period", lang),
             bullets: [
-              "One-page website for an interior designer with portfolio & booking system.",
+              t("exp_fabulous_b1", lang),
             ]
           },
           {
             company: "Columbus Café",
             logoSrc: "/scene/logo columbus.png",
-            logoClass: "h-20 w-20",
-            role: "Internship",
-            period: "Jul 2024 – Aug 2024 · Paris",
+            logoClass: "h-12 w-12 md:h-20 md:w-20",
+            role: t("exp_columbus_role", lang),
+            period: t("exp_columbus_period", lang),
             bullets: [
-              "Team supervision, cost management, online promotion, website creation.",
+              t("exp_columbus_b1", lang),
             ]
           },
         ].map((exp) => (
@@ -183,79 +185,33 @@ function getSectionContent(onPreview: (url: string) => void): Record<string, Rea
     "text-card": (
       <div className="space-y-6">
         <div className="flex items-start gap-4 rounded-lg border border-white/[0.06] bg-white/[0.02] p-4">
-          <Image src="/scene/KAIST_logo.svg.png" alt="KAIST" width={72} height={72} className="h-[4.5rem] w-[4.5rem] shrink-0 rounded-lg object-contain" />
+          <Image src="/scene/KAIST_logo.svg.png" alt="KAIST" width={72} height={72} className="h-12 w-12 shrink-0 rounded-lg object-contain md:h-[4.5rem] md:w-[4.5rem]" />
           <div>
-            <h4 className="text-lg font-semibold text-sand">Specialization in AI — KAIST</h4>
-            <p className="mt-1 text-sm text-bronze">Feb 2025 – Jul 2025 · Daejeon, South Korea</p>
-            <p className="mt-2 text-base text-white/60">Exchange semester focused on Data Science, AI/ML, and Start-Up Management at Korea&apos;s top science &amp; technology university.</p>
+            <h4 className="text-lg font-semibold text-sand">{t("edu_kaist_title", lang)}</h4>
+            <p className="mt-1 text-sm text-bronze">{t("edu_kaist_period", lang)}</p>
+            <p className="mt-2 text-base text-white/60">{t("edu_kaist_desc", lang)}</p>
           </div>
         </div>
         <div className="flex items-start gap-4 rounded-lg border border-white/[0.06] bg-white/[0.02] p-4">
-          <Image src="/scene/Logo_UTT_2018.svg.png" alt="UTT" width={72} height={72} className="h-[4.5rem] w-[4.5rem] shrink-0 rounded-lg object-contain" />
+          <Image src="/scene/Logo_UTT_2018.svg.png" alt="UTT" width={72} height={72} className="h-12 w-12 shrink-0 rounded-lg object-contain md:h-[4.5rem] md:w-[4.5rem]" />
           <div>
-            <h4 className="text-lg font-semibold text-sand">Engineering in Informatics &amp; Systems — UTT</h4>
-            <p className="mt-1 text-sm text-bronze">2024 – 2027 · Troyes, France</p>
-            <p className="mt-2 text-base text-white/60">Integrated preparatory program (2022–2024). Database management, Software Engineering, Systems Architecture.</p>
-          </div>
-        </div>
-        <div className="mt-2 space-y-3">
-          <p className="text-sm uppercase tracking-[0.2em] text-bronze">Certifications</p>
-          <div className="space-y-2">
-            <div className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3">
-              <svg className="h-9 w-9 shrink-0" viewBox="0 0 21 21"><rect width="10" height="10" fill="#f25022"/><rect x="11" width="10" height="10" fill="#7fba00"/><rect width="10" height="10" y="11" fill="#00a4ef"/><rect x="11" y="11" width="10" height="10" fill="#ffb900"/></svg>
-              <div>
-                <p className="text-sm text-sand">AI Generative</p>
-                <p className="text-xs text-white/40">Microsoft</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3">
-              <svg className="h-9 w-9 shrink-0" viewBox="0 0 21 21"><rect width="10" height="10" fill="#f25022"/><rect x="11" width="10" height="10" fill="#7fba00"/><rect width="10" height="10" y="11" fill="#00a4ef"/><rect x="11" y="11" width="10" height="10" fill="#ffb900"/></svg>
-              <div>
-                <p className="text-sm text-sand">Build a Computer Vision App with Azure</p>
-                <p className="text-xs text-white/40">Microsoft</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#232F3E]">
-                <span className="text-[11px] font-black tracking-tight text-[#FF9900]">aws</span>
-              </div>
-              <div>
-                <p className="text-sm text-sand">Getting Started with AWS Generative AI for Developers</p>
-                <p className="text-xs text-white/40">AWS</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#0F62FE]/15">
-                <span className="text-sm font-black tracking-wider text-[#0F62FE]">IBM</span>
-              </div>
-              <div>
-                <p className="text-sm text-sand">Build RAG Applications</p>
-                <p className="text-xs text-white/40">IBM</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-purple-500/15">
-                <svg className="h-6 w-6 text-purple-400" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" /></svg>
-              </div>
-              <div>
-                <p className="text-sm text-sand">Build Intelligent Agents Using DeepSeek &amp; N8N</p>
-                <p className="text-xs text-white/40">DeepSeek / N8N</p>
-              </div>
-            </div>
+            <h4 className="text-lg font-semibold text-sand">{t("edu_utt_title", lang)}</h4>
+            <p className="mt-1 text-sm text-bronze">{t("edu_utt_period", lang)}</p>
+            <p className="mt-2 text-base text-white/60">{t("edu_utt_desc", lang)}</p>
           </div>
         </div>
       </div>
     ),
 
     cubes: (
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4">
         {[
-          { name: "Hera Studio", desc: "AI-powered platform that generates personalized coloring books for children. Users choose themes, characters and styles, then the AI creates unique illustrations ready to print or color digitally.", tech: "React, Firebase, Stripe, OpenAI", link: "https://www.herastudio.art" },
-          { name: "Frelsi", desc: "A personal creative blog built around an interactive notebook system. Features real-time editing, markdown support, and a minimalist reading experience with custom themes.", tech: "React, Supabase, Vercel", link: "https://frelsi.vercel.app" },
-          { name: "Fabulous Creations", desc: "Elegant one-page portfolio for an interior designer, featuring a curated project gallery, smooth scroll animations, and an integrated booking & contact system.", tech: "HTML, CSS, JavaScript", link: "https://aminssutt.github.io/Fabulous/" },
-          { name: "RePLY", desc: "Connected wearable device that monitors heart rate using machine learning algorithms. Processes real-time IoT sensor data for health insights and anomaly detection.", tech: "ML, IoT, Python, Hardware", link: null },
-          { name: "AI Adventure", desc: "Gamified learning platform built at KAIST to teach AI concepts interactively. Tested by 30+ students with quizzes, challenges, and progressive difficulty levels.", tech: "React, ML, Python, Gamification", link: null },
-          { name: "Great Teachers", desc: "Educational platform connecting students with an AI-powered teaching assistant. Provides instant answers, personalized study plans, and resource recommendations.", tech: "AI, React, Node.js", link: null },
+          { name: "Hera Studio", desc: t("proj_hera_desc", lang), tech: "React, Firebase, Stripe, OpenAI", link: "https://www.herastudio.art" },
+          { name: "Frelsi", desc: t("proj_frelsi_desc", lang), tech: "React, Supabase, Vercel", link: "https://frelsi.vercel.app" },
+          { name: "Fabulous Creations", desc: t("proj_fabulous_desc", lang), tech: "HTML, CSS, JavaScript", link: "https://aminssutt.github.io/Fabulous/" },
+          { name: "RePLY", desc: t("proj_reply_desc", lang), tech: "ML, IoT, Python, Hardware", link: null },
+          { name: "AI Adventure", desc: t("proj_aiadventure_desc", lang), tech: "React, ML, Python, Gamification", link: null },
+          { name: "Great Teachers", desc: t("proj_greatteachers_desc", lang), tech: "AI, React, Node.js", link: null },
         ].map((p) => (
           <div
             key={p.name}
@@ -269,14 +225,14 @@ function getSectionContent(onPreview: (url: string) => void): Record<string, Rea
               <h4 className="text-base font-semibold text-sand group-hover:text-bronze transition-colors">{p.name}</h4>
               {p.link && (
                 <a href={p.link} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="shrink-0 rounded-md border border-bronze/30 bg-bronze/10 px-2.5 py-1 text-[11px] text-bronze transition-colors hover:bg-bronze/25">
-                  Visit ↗
+                  {t("proj_visit", lang)}
                 </a>
               )}
             </div>
             <p className="mt-2 flex-1 text-sm leading-relaxed text-white/55">{p.desc}</p>
             <div className="mt-3 flex flex-wrap gap-1.5">
-              {p.tech.split(", ").map((t) => (
-                <span key={t} className="rounded-full bg-white/[0.04] px-2.5 py-0.5 text-[10px] text-bronze/70">{t}</span>
+              {p.tech.split(", ").map((techItem) => (
+                <span key={techItem} className="rounded-full bg-white/[0.04] px-2.5 py-0.5 text-[10px] text-bronze/70">{techItem}</span>
               ))}
             </div>
           </div>
@@ -286,31 +242,31 @@ function getSectionContent(onPreview: (url: string) => void): Record<string, Rea
 
     "toggle-stack": (
       <div className="space-y-6">
-        <p className="text-sm text-white/50">Technologies, frameworks &amp; competencies I work with.</p>
+        <p className="text-sm text-white/50">{t("tech_intro", lang)}</p>
         {[
-          { category: "Frontend", techs: ["React", "Next.js", "TypeScript", "TailwindCSS", "Framer Motion", "GSAP"] },
-          { category: "Backend", techs: ["Node.js", "Firebase", "Supabase", "PostgreSQL", "Stripe"] },
-          { category: "AI & Data", techs: ["Gemini API", "LangChain", "Python", "TensorFlow", "ML/DL", "NLP", "Computer Vision", "LLM / RAG"] },
-          { category: "Tools & DevOps", techs: ["Git", "Vercel", "Docker", "ROS2", "Figma"] },
+          { category: t("tech_frontend", lang), techs: ["React", "Next.js", "TypeScript", "TailwindCSS", "Framer Motion", "GSAP"] },
+          { category: t("tech_backend", lang), techs: ["Node.js", "Firebase", "Supabase", "PostgreSQL", "Stripe"] },
+          { category: t("tech_aidata", lang), techs: ["Gemini API", "LangChain", "Python", "TensorFlow", "ML/DL", "NLP", "Computer Vision", "LLM / RAG"] },
+          { category: t("tech_tools", lang), techs: ["Git", "Vercel", "Docker", "ROS2", "Figma"] },
         ].map((cat) => (
           <div key={cat.category}>
             <h4 className="mb-2.5 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.15em] text-bronze">
               <span className="text-[8px] text-bronze/50">◆</span> {cat.category}
             </h4>
             <div className="flex flex-wrap gap-2">
-              {cat.techs.map((t) => (
-                <span key={t} className="rounded-md border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 text-xs text-sand/80 transition-colors hover:border-bronze/30 hover:bg-bronze/10">{t}</span>
+              {cat.techs.map((techItem) => (
+                <span key={techItem} className="rounded-md border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 text-xs text-sand/80 transition-colors hover:border-bronze/30 hover:bg-bronze/10">{techItem}</span>
               ))}
             </div>
           </div>
         ))}
         <div className="border-t border-white/[0.06] pt-5">
-          <h4 className="mb-3 text-sm font-semibold uppercase tracking-[0.15em] text-bronze">Professional Skills</h4>
+          <h4 className="mb-3 text-sm font-semibold uppercase tracking-[0.15em] text-bronze">{t("tech_profSkills", lang)}</h4>
           <div className="space-y-4">
             {[
-              { area: "Web & Mobile", items: ["Full-Stack Development", "REST APIs", "Real-time Systems", "PWA", "SEO"] },
-              { area: "Data & Analytics", items: ["Data Pipelines", "Statistical Analysis", "Visualization", "SQL / NoSQL"] },
-              { area: "Soft Skills", items: ["Team Leadership", "Agile XP", "Public Speaking", "Cross-cultural Collaboration"] },
+              { area: t("tech_webMobile", lang), items: [t("skill_fullstack", lang), t("skill_restapi", lang), t("skill_realtime", lang), "PWA", "SEO"] },
+              { area: t("tech_dataAnalytics", lang), items: [t("skill_datapipe", lang), t("skill_statanalysis", lang), t("skill_visualization", lang), "SQL / NoSQL"] },
+              { area: t("tech_softSkills", lang), items: [t("skill_leadership", lang), "Agile XP", t("skill_speaking", lang), t("skill_crosscultural", lang)] },
             ].map((group) => (
               <div key={group.area}>
                 <h5 className="mb-2 text-xs font-medium uppercase tracking-[0.15em] text-sand/50">{group.area}</h5>
@@ -323,85 +279,20 @@ function getSectionContent(onPreview: (url: string) => void): Record<string, Rea
             ))}
           </div>
         </div>
-
       </div>
     ),
 
+    /* palette → Passions (was Design) */
     palette: (
       <div className="space-y-5">
-        <p className="text-base text-white/60">I design with intent — every animation, color, and layout decision serves the user experience.</p>
-        <div className="space-y-3">
-          {[
-            { principle: "Minimalism", desc: "Clean interfaces, clear hierarchy, no visual noise." },
-            { principle: "Motion Design", desc: "Purposeful animations that guide attention and delight." },
-            { principle: "Responsive First", desc: "Fluid layouts that feel native on any screen size." },
-          ].map((p) => (
-            <div key={p.principle} className="rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3">
-              <h4 className="text-base font-semibold text-sand">{p.principle}</h4>
-              <p className="mt-1 text-sm text-white/45">{p.desc}</p>
-            </div>
-          ))}
-        </div>
-        <div>
-          <p className="mb-2 text-xs uppercase tracking-[0.15em] text-bronze">Tools</p>
-          <div className="flex flex-wrap gap-2">
-            {["Figma", "TailwindCSS", "Framer Motion", "GSAP", "Photoshop"].map((t) => (
-              <span key={t} className="rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1 text-[11px] text-sand/70">{t}</span>
-            ))}
-          </div>
-        </div>
-        <div>
-          <p className="mb-2 text-xs uppercase tracking-[0.15em] text-bronze">Palette</p>
-          <div className="flex gap-3">
-            {[
-              { color: "#0B0E0B", name: "Obsidian" },
-              { color: "#2E4830", name: "Forest" },
-              { color: "#6C7F56", name: "Olive" },
-              { color: "#B78A59", name: "Bronze" },
-              { color: "#EDE8DD", name: "Sand" },
-            ].map((c) => (
-              <div key={c.name} className="text-center">
-                <div className="mx-auto h-8 w-8 rounded-full border border-white/10" style={{ background: c.color }} />
-                <p className="mt-1 text-[9px] text-white/40">{c.name}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    ),
-
-
-
-    ai: (
-      <div className="space-y-4">
-        <p className="text-base text-white/60">Passionate about <span className="text-bronze">Artificial Intelligence</span>, Machine Learning, and emerging technologies.</p>
-        <div className="space-y-3">
-          <div className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-4">
-            <h4 className="text-base font-semibold text-sand">AI at Renault</h4>
-            <p className="mt-1.5 text-sm text-white/55">Built an in-car AI assistant with LLM &amp; RAG, and an AI podcast platform with NLP &amp; TTS.</p>
-          </div>
-          <div className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-4">
-            <h4 className="text-base font-semibold text-sand">Hera Studio</h4>
-            <p className="mt-1.5 text-sm text-white/55">Created an AI-powered coloring book generator using OpenAI for children&apos;s education.</p>
-          </div>
-          <div className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-4">
-            <h4 className="text-base font-semibold text-sand">AI Adventure</h4>
-            <p className="mt-1.5 text-sm text-white/55">Game-based learning platform tested by 30+ KAIST students, promoting active AI learning.</p>
-          </div>
-        </div>
-      </div>
-    ),
-
-    dots: (
-      <div className="space-y-5">
-        <p className="text-base text-white/60">Interests &amp; passions that shape who I am beyond code.</p>
+        <p className="text-base text-white/60">{t("passions_intro", lang)}</p>
         <div className="space-y-4">
           {[
-            { emoji: "⚽", title: "Football", desc: "Regional Champion Grand Est 2024. 11 years of competitive play at national level." },
-            { emoji: "🏐", title: "Volleyball", desc: "French National Championship participant. PRVB Plessis Robinson." },
-            { emoji: "🎨", title: "Art & Design", desc: "Drawing and creative visual expression — a lifelong pursuit." },
-            { emoji: "🚀", title: "Entrepreneurship", desc: "Building innovative solutions and exploring startup opportunities." },
-            { emoji: "🤝", title: "HumanLaw", desc: "Food distribution to homeless and students in need since 2023." },
+            { emoji: "⚽", title: t("passion_football", lang), desc: t("passion_football_d", lang) },
+            { emoji: "🏐", title: t("passion_volleyball", lang), desc: t("passion_volleyball_d", lang) },
+            { emoji: "🎨", title: t("passion_art", lang), desc: t("passion_art_d", lang) },
+            { emoji: "🚀", title: t("passion_entrepreneurship", lang), desc: t("passion_entrepreneurship_d", lang) },
+            { emoji: "🤝", title: t("passion_humanlaw", lang), desc: t("passion_humanlaw_d", lang) },
           ].map((item) => (
             <div key={item.title} className="flex items-start gap-4">
               <span className="text-2xl">{item.emoji}</span>
@@ -411,6 +302,72 @@ function getSectionContent(onPreview: (url: string) => void): Record<string, Rea
               </div>
             </div>
           ))}
+        </div>
+      </div>
+    ),
+
+    ai: (
+      <div className="space-y-4">
+        <p className="text-base text-white/60">{t("ai_intro", lang)} <span className="text-bronze">{t("ai_keyword", lang)}</span>{t("ai_intro2", lang)}</p>
+        <div className="space-y-3">
+          <div className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-4">
+            <h4 className="text-base font-semibold text-sand">{t("ai_renault_title", lang)}</h4>
+            <p className="mt-1.5 text-sm text-white/55">{t("ai_renault_desc", lang)}</p>
+          </div>
+          <div className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-4">
+            <h4 className="text-base font-semibold text-sand">{t("ai_hera_title", lang)}</h4>
+            <p className="mt-1.5 text-sm text-white/55">{t("ai_hera_desc", lang)}</p>
+          </div>
+        </div>
+        <div className="mt-4 rounded-lg border border-dashed border-bronze/20 bg-bronze/[0.03] px-5 py-4 text-center">
+          <p className="text-sm text-bronze/60">{t("ai_comingSoon", lang)}</p>
+        </div>
+      </div>
+    ),
+
+    /* dots → Certifications (was Passion) */
+    dots: (
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <div className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3">
+            <svg className="h-9 w-9 shrink-0" viewBox="0 0 21 21"><rect width="10" height="10" fill="#f25022"/><rect x="11" width="10" height="10" fill="#7fba00"/><rect width="10" height="10" y="11" fill="#00a4ef"/><rect x="11" y="11" width="10" height="10" fill="#ffb900"/></svg>
+            <div>
+              <p className="text-sm text-sand">AI Generative</p>
+              <p className="text-xs text-white/40">Microsoft</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3">
+            <svg className="h-9 w-9 shrink-0" viewBox="0 0 21 21"><rect width="10" height="10" fill="#f25022"/><rect x="11" width="10" height="10" fill="#7fba00"/><rect width="10" height="10" y="11" fill="#00a4ef"/><rect x="11" y="11" width="10" height="10" fill="#ffb900"/></svg>
+            <div>
+              <p className="text-sm text-sand">Build a Computer Vision App with Azure</p>
+              <p className="text-xs text-white/40">Microsoft</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#232F3E]">
+              <span className="text-[11px] font-black tracking-tight text-[#FF9900]">aws</span>
+            </div>
+            <div>
+              <p className="text-sm text-sand">Getting Started with AWS Generative AI for Developers</p>
+              <p className="text-xs text-white/40">AWS</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#0F62FE]/15">
+              <span className="text-sm font-black tracking-wider text-[#0F62FE]">IBM</span>
+            </div>
+            <div>
+              <p className="text-sm text-sand">Build RAG Applications</p>
+              <p className="text-xs text-white/40">IBM</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3">
+            <Image src="/scene/board infinity logo.jpg" alt="Board Infinity" width={40} height={40} className="h-10 w-10 shrink-0 rounded-md object-contain" />
+            <div>
+              <p className="text-sm text-sand">Build Intelligent Agents Using DeepSeek &amp; N8N</p>
+              <p className="text-xs text-white/40">Board Infinity</p>
+            </div>
+          </div>
         </div>
       </div>
     )
@@ -450,11 +407,117 @@ function CrossGrid() {
   );
 }
 
+/* ── Language switcher ── */
+const FLAGS: Record<Lang, string> = { en: "🇬🇧", fr: "🇫🇷", ko: "🇰🇷" };
+const LANG_ORDER: Lang[] = ["en", "fr", "ko"];
+
+function LangSwitcher({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
+  const [open, setOpen] = useState(false);
+  const others = LANG_ORDER.filter((l) => l !== lang);
+
+  return (
+    <div className="relative flex flex-col-reverse items-center gap-2">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-lg transition-colors hover:bg-white/10"
+      >
+        {FLAGS[lang]}
+      </button>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className="flex flex-col gap-2"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 16 }}
+            transition={{ duration: 0.25 }}
+          >
+            {others.map((l, i) => (
+              <motion.button
+                key={l}
+                type="button"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ delay: i * 0.05 }}
+                onClick={() => { setLang(l); setOpen(false); }}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-lg transition-colors hover:bg-white/10 hover:border-bronze/40"
+              >
+                {FLAGS[l]}
+              </motion.button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 const sceneVariants = {
   idle: { x: "0%", scale: 1 },
   slideLeft: { x: "-30%", scale: 0.92 },
-  slideRight: { x: "30%", scale: 0.92 }
+  slideRight: { x: "30%", scale: 0.92 },
+  mobileActive: { x: "0%", scale: 0.85 }
 };
+
+/* ── Mobile burger menu ── */
+function MobileMenu({ lang, setLang, onContact }: { lang: Lang; setLang: (l: Lang) => void; onContact: () => void }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-lg text-sand/70 transition-colors hover:bg-white/10"
+        aria-label="Menu"
+      >
+        {open ? "✕" : "☰"}
+      </button>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className="absolute right-0 top-12 glass-panel min-w-[180px] space-y-4 p-4"
+            initial={{ opacity: 0, y: -8, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+          >
+            <div className="flex items-center justify-center gap-2">
+              {LANG_ORDER.map((l) => (
+                <button
+                  key={l}
+                  type="button"
+                  onClick={() => setLang(l)}
+                  className={`flex h-9 w-9 items-center justify-center rounded-full border text-base transition-colors ${
+                    l === lang ? "border-bronze/50 bg-bronze/15" : "border-white/10 bg-white/5"
+                  }`}
+                >
+                  {FLAGS[l]}
+                </button>
+              ))}
+            </div>
+            <div className="flex items-center justify-center gap-4">
+              <a href="https://github.com/aminssutt" target="_blank" rel="noopener noreferrer" className="text-white/40 transition-colors hover:text-sand">
+                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+              </a>
+              <a href="https://www.linkedin.com/in/lakhdar-berache-62095426a/" target="_blank" rel="noopener noreferrer" className="text-white/40 transition-colors hover:text-sand">
+                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              </a>
+            </div>
+            <button
+              type="button"
+              onClick={() => { onContact(); setOpen(false); }}
+              className="w-full rounded-full border border-bronze/30 bg-bronze/10 py-2 text-xs font-medium text-bronze/70 transition-colors hover:bg-bronze/20 hover:text-bronze"
+            >
+              {t("openToWork", lang)}
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 const panelVariants = {
   hiddenRight: { x: "100%", opacity: 0 },
@@ -476,9 +539,19 @@ export default function HeroScene() {
   const [activeIcon, setActiveIcon] = useState<SceneIcon | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [showContact, setShowContact] = useState(false);
+  const [lang, setLang] = useState<Lang>("en");
+  const [isMobile, setIsMobile] = useState(false);
   const isOpen = !!activeIcon;
 
-  const sectionContent = getSectionContent(setPreviewUrl);
+  useEffect(() => {
+    const mql = window.matchMedia("(max-width: 767px)");
+    setIsMobile(mql.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
+
+  const sectionContent = getSectionContent(setPreviewUrl, lang);
 
   const handleIconClick = useCallback((icon: SceneIcon) => {
     setActiveIcon(icon);
@@ -489,9 +562,11 @@ export default function HeroScene() {
   }, []);
 
   const slideDirection = activeIcon
-    ? activeIcon.side === "right" || activeIcon.side === "center"
-      ? "slideLeft"
-      : "slideRight"
+    ? isMobile
+      ? "mobileActive"
+      : activeIcon.side === "right" || activeIcon.side === "center"
+        ? "slideLeft"
+        : "slideRight"
     : "idle";
 
   const panelSide = activeIcon
@@ -500,7 +575,6 @@ export default function HeroScene() {
       : "left"
     : null;
 
-  // Avatar parallax — shifts more when panel is open
   const avatarX = useTransform(x, (v) => v * 12);
   const avatarY = useTransform(y, (v) => v * 12);
 
@@ -531,6 +605,7 @@ export default function HeroScene() {
             alt="Avatar"
             fill
             priority
+            fetchPriority="high"
             className="object-contain object-center"
             sizes="100vw"
           />
@@ -541,7 +616,7 @@ export default function HeroScene() {
         {/* Vignette */}
         <div className="pointer-events-none absolute inset-0 z-20 bg-[radial-gradient(circle_at_50%_44%,rgba(0,0,0,0)_24%,rgba(0,0,0,0.42)_68%,rgba(0,0,0,0.85)_100%)]" />
 
-        {/* Floating icons — fade out when panel is open */}
+        {/* Floating icons */}
         <AnimatePresence>
           {!isOpen && (
             <motion.div
@@ -557,7 +632,7 @@ export default function HeroScene() {
                   src={icon.src}
                   alt={icon.alt}
                   className={icon.className}
-                  label={icon.label}
+                  label={getIconLabel(icon.id, lang)}
                   side={icon.side}
                   mouseX={x}
                   mouseY={y}
@@ -573,19 +648,49 @@ export default function HeroScene() {
 
       {/* Content panel */}
       <AnimatePresence>
-        {activeIcon && panelSide && (
+        {activeIcon && (isMobile || panelSide) && (
           <motion.div
             key={activeIcon.id}
-            className={`absolute top-0 z-40 flex h-full w-[55%] flex-col justify-center px-10 md:px-16 ${
-              panelSide === "right" ? "right-0" : "left-0"
-            }`}
-            variants={panelVariants}
-            initial={panelSide === "right" ? "hiddenRight" : "hiddenLeft"}
-            animate="visible"
-            exit={panelSide === "right" ? "hiddenRight" : "hiddenLeft"}
+            className={
+              isMobile
+                ? "absolute bottom-0 left-0 right-0 z-40"
+                : `absolute top-0 z-40 flex h-full w-[55%] flex-col justify-center px-10 md:px-16 ${
+                    panelSide === "right" ? "right-0" : "left-0"
+                  }`
+            }
+            initial={
+              isMobile
+                ? { y: "100%", opacity: 0 }
+                : panelSide === "right"
+                  ? { x: "100%", opacity: 0 }
+                  : { x: "-100%", opacity: 0 }
+            }
+            animate={
+              isMobile
+                ? { y: "0%", opacity: 1 }
+                : { x: "0%", opacity: 1 }
+            }
+            exit={
+              isMobile
+                ? { y: "100%", opacity: 0 }
+                : panelSide === "right"
+                  ? { x: "100%", opacity: 0 }
+                  : { x: "-100%", opacity: 0 }
+            }
             transition={springTransition}
           >
-            <div className="glass-panel relative max-h-[80vh] overflow-y-auto p-8 shadow-ambient md:p-12">
+            {/* Drag handle (mobile) */}
+            {isMobile && (
+              <div className="flex justify-center pt-3 pb-1 bg-transparent" onClick={handleClose}>
+                <div className="h-1 w-10 rounded-full bg-white/25" />
+              </div>
+            )}
+
+            <div className={`glass-panel relative overflow-y-auto shadow-ambient ${
+              isMobile
+                ? "max-h-[85vh] rounded-b-none rounded-t-3xl p-5 pb-10"
+                : "max-h-[80vh] p-8 md:p-12"
+            }`}>
               <button
                 type="button"
                 onClick={handleClose}
@@ -595,20 +700,20 @@ export default function HeroScene() {
               </button>
 
               <div className="mb-4 flex items-center gap-3">
-                <Image src={activeIcon.src} alt={activeIcon.alt} width={40} height={40} className="h-8 w-8 object-contain md:h-10 md:w-10" />
+                <Image src={activeIcon.src} alt={activeIcon.alt} width={40} height={40} className="h-7 w-7 object-contain md:h-10 md:w-10" />
                 <div>
                   <p className="text-[10px] uppercase tracking-[0.3em] text-bronze md:text-xs">
-                    {activeIcon.label}
+                    {getIconLabel(activeIcon.id, lang)}
                   </p>
-                  <h2 className="font-[var(--font-display)] text-2xl font-semibold text-sand md:text-3xl lg:text-4xl">
-                    {activeIcon.label}
+                  <h2 className="font-[var(--font-display)] text-xl font-semibold text-sand md:text-3xl lg:text-4xl">
+                    {getIconLabel(activeIcon.id, lang)}
                   </h2>
                 </div>
               </div>
 
-              <div className="text-base leading-relaxed text-white/60 md:text-lg">
+              <div className="text-sm leading-relaxed text-white/60 md:text-lg">
                 {sectionContent[activeIcon.id] ?? (
-                  <p>Contenu à venir pour <span className="text-sand">{activeIcon.label}</span>.</p>
+                  <p>{t("comingSoonFor", lang)} <span className="text-sand">{getIconLabel(activeIcon.id, lang)}</span>.</p>
                 )}
               </div>
             </div>
@@ -620,7 +725,7 @@ export default function HeroScene() {
       <AnimatePresence>
         {activeIcon && (
           <motion.div
-            className="absolute inset-0 z-20"
+            className="absolute inset-0 z-[35] bg-black/50 md:bg-transparent"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -630,26 +735,75 @@ export default function HeroScene() {
         )}
       </AnimatePresence>
 
-      {/* Hint text — bottom center */}
+      {/* Name — above avatar */}
       <AnimatePresence>
         {!isOpen && (
-          <motion.p
-            className="absolute bottom-6 left-1/2 z-30 -translate-x-1/2 text-xs tracking-[0.15em] text-white/25"
+          <motion.div
+            className="absolute top-[6%] inset-x-0 z-30 flex justify-center px-4"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10, transition: { duration: 0.2 } }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+          >
+            <h1 className="font-[var(--font-display)] text-lg font-semibold tracking-[0.12em] text-bronze/80 drop-shadow-[0_2px_12px_rgba(183,138,89,0.25)] md:text-3xl lg:text-4xl">
+              {t("portfolioTitle", lang)}
+            </h1>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Hint — bottom center */}
+      <AnimatePresence>
+        {!isOpen && (
+          <motion.div
+            className="absolute bottom-6 inset-x-0 z-30 flex justify-center md:bottom-6"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10, transition: { duration: 0.2 } }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            Click an icon to explore
-          </motion.p>
+            <p className="text-[10px] tracking-[0.15em] text-white/25 md:text-xs">
+              {t("clickToExplore", lang)}
+            </p>
+          </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Social links — bottom right */}
+      {/* Mobile burger menu — top right */}
       <AnimatePresence>
         {!isOpen && (
           <motion.div
-            className="absolute bottom-6 right-8 z-30 flex items-center gap-4"
+            className="absolute top-4 right-4 z-30 md:hidden"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10, transition: { duration: 0.2 } }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            <MobileMenu lang={lang} setLang={setLang} onContact={() => setShowContact(true)} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Language switcher — bottom left (desktop only) */}
+      <AnimatePresence>
+        {!isOpen && (
+          <motion.div
+            className="absolute bottom-6 left-8 z-30 hidden md:block"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10, transition: { duration: 0.2 } }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+          >
+            <LangSwitcher lang={lang} setLang={setLang} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Social links — bottom right (desktop only) */}
+      <AnimatePresence>
+        {!isOpen && (
+          <motion.div
+            className="absolute bottom-6 right-8 z-30 hidden md:flex items-center gap-4"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10, transition: { duration: 0.2 } }}
@@ -666,13 +820,13 @@ export default function HeroScene() {
               onClick={() => setShowContact(true)}
               className="rounded-full border border-bronze/30 bg-bronze/10 px-4 py-1.5 text-xs font-medium text-bronze/70 transition-all duration-300 hover:border-bronze/60 hover:bg-bronze/20 hover:text-bronze hover:shadow-[0_0_16px_rgba(183,138,89,0.3)]"
             >
-              Open to Work — Freelance
+              {t("openToWork", lang)}
             </button>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Contact form modal */}
+      {/* Contact modal */}
       <AnimatePresence>
         {showContact && (
           <motion.div
@@ -684,7 +838,7 @@ export default function HeroScene() {
             onClick={() => setShowContact(false)}
           >
             <motion.div
-              className="relative w-full max-w-md overflow-hidden rounded-2xl border border-white/10 bg-obsidian p-8 shadow-2xl"
+              className="relative w-full max-w-md overflow-hidden rounded-2xl border border-white/10 bg-obsidian p-6 shadow-2xl md:p-8"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
@@ -698,8 +852,8 @@ export default function HeroScene() {
               >
                 ✕
               </button>
-              <h3 className="font-[var(--font-display)] text-2xl font-semibold text-sand">Get in touch</h3>
-              <p className="mt-2 text-base text-white/50">Feel free to contact me for any freelance demand or job opportunity!</p>
+              <h3 className="font-[var(--font-display)] text-2xl font-semibold text-sand">{t("getInTouch", lang)}</h3>
+              <p className="mt-2 text-base text-white/50">{t("contactDesc", lang)}</p>
               <div className="mt-6 space-y-3">
                 <a href="mailto:lakhdarberache@gmail.com" className="flex items-center gap-3 rounded-lg border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-sm text-sand transition-colors hover:border-bronze/30 hover:bg-bronze/[0.06]">
                   <svg className="h-5 w-5 shrink-0 text-bronze" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
@@ -731,7 +885,7 @@ export default function HeroScene() {
             onClick={() => setPreviewUrl(null)}
           >
             <motion.div
-              className="relative h-[80vh] w-[85vw] max-w-5xl overflow-hidden rounded-2xl border border-white/10 bg-obsidian shadow-2xl"
+              className="relative h-[90vh] w-[95vw] max-w-5xl overflow-hidden rounded-2xl border border-white/10 bg-obsidian shadow-2xl md:h-[80vh] md:w-[85vw]"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
@@ -747,7 +901,7 @@ export default function HeroScene() {
                 <p className="text-xs text-white/40 select-all">{previewUrl}</p>
                 <div className="flex items-center gap-2">
                   <a href={previewUrl} target="_blank" rel="noopener noreferrer" className="rounded-md border border-white/10 bg-white/5 px-3 py-1 text-[10px] text-sand/70 transition-colors hover:bg-white/10">
-                    Open ↗
+                    {t("proj_visit", lang)}
                   </a>
                   <button type="button" onClick={() => setPreviewUrl(null)} className="flex h-7 w-7 items-center justify-center rounded-full text-white/40 transition-colors hover:bg-white/10 hover:text-sand">✕</button>
                 </div>

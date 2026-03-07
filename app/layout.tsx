@@ -5,13 +5,15 @@ import "./globals.css";
 const displayFont = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["500", "600", "700"],
-  variable: "--font-display"
+  variable: "--font-display",
+  display: "swap"
 });
 
 const bodyFont = Space_Grotesk({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-body"
+  variable: "--font-body",
+  display: "swap"
 });
 
 export const metadata: Metadata = {

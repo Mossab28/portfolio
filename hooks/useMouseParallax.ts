@@ -1,6 +1,6 @@
 "use client";
 
-import { RefObject, useEffect } from "react";
+import { RefObject, useEffect, useRef } from "react";
 import { useMotionValue, useSpring } from "framer-motion";
 
 type UseMouseParallaxOptions = {
@@ -35,10 +35,34 @@ export function useMouseParallax(
       return;
     }
 
+    // Touch devices: use gyroscope for subtle parallax
+    const isTouchDevice =
+      "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
+    if (isTouchDevice) {
+      const handleOrientation = (e: DeviceOrientationEvent) => {
+        const gamma = e.gamma ?? 0; // left-right tilt
+        const beta = e.beta ?? 0; // front-back tilt
+        rawX.set(Math.max(-0.5, Math.min(0.5, gamma / 60)));
+        rawY.set(Math.max(-0.5, Math.min(0.5, (beta - 45) / 60)));
+      };
+      window.addEventListener("deviceorientation", handleOrientation, {
+        passive: true
+      });
+      return () =>
+        window.removeEventListener("deviceorientation", handleOrientation);
+    }
+
+    // Cache rect to avoid forced reflow on every mousemove
+    let cachedRect = element.getBoundingClientRect();
+    const updateRect = () => { cachedRect = element.getBoundingClientRect(); };
+    window.addEventListener("resize", updateRect, { passive: true });
+    window.addEventListener("scroll", updateRect, { passive: true });
+
+    // Desktop: mouse parallax
     const handleMove = (event: MouseEvent) => {
-      const rect = element.getBoundingClientRect();
-      const px = (event.clientX - rect.left) / rect.width - 0.5;
-      const py = (event.clientY - rect.top) / rect.height - 0.5;
+      const px = (event.clientX - cachedRect.left) / cachedRect.width - 0.5;
+      const py = (event.clientY - cachedRect.top) / cachedRect.height - 0.5;
       rawX.set(px);
       rawY.set(py);
     };
@@ -54,6 +78,8 @@ export function useMouseParallax(
     return () => {
       element.removeEventListener("mousemove", handleMove);
       element.removeEventListener("mouseleave", reset);
+      window.removeEventListener("resize", updateRect);
+      window.removeEventListener("scroll", updateRect);
     };
   }, [containerRef, enabled, rawX, rawY]);
 

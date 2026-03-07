@@ -92,3 +92,18 @@ h4 {
     scroll-behavior: auto !important;
   }
 }
+
+/* ── Mobile scroll view ── */
+.mobile-scroll-container {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+.mobile-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.mobile-scroll-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
