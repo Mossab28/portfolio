@@ -428,10 +428,10 @@ function buildSections(
               link: "https://www.herastudio.art",
             },
             {
-              name: "Frelsi",
-              desc: t("proj_frelsi_desc", lang),
-              tech: "React, Supabase, Vercel",
-              link: "https://frelsi.vercel.app",
+              name: "CarChat",
+              desc: t("proj_carchat_desc", lang),
+              tech: "React, Vite, Framer Motion",
+              link: "https://carchat-frontend.onrender.com/",
             },
             {
               name: "Fabulous Creations",
