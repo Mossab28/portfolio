@@ -26,31 +26,30 @@ npm run build
 ```bash
 git init
 git add .
-git commit -m "feat: portfolio landing ready for vercel"
+git commit -m "feat: portfolio landing ready"
 git branch -M main
 git remote add origin https://github.com/<ton-user>/<ton-repo>.git
 git push -u origin main
 ```
 
-## Deploy sur Vercel (Dashboard)
-
-1. Aller sur https://vercel.com/new
-2. Importer le repo GitHub
-3. Framework detecte automatiquement: `Next.js`
-4. Build Command: `next build` (auto)
-5. Output Directory: `.next` (auto)
-6. Cliquer `Deploy`
-
-## Deploy via Vercel CLI (optionnel)
+## Build Docker
 
 ```bash
-npm i -g vercel
-vercel login
-vercel
-vercel --prod
+docker build -t nsl-portf .
+```
+
+## Run Docker
+
+```bash
+docker run -d --name portf --restart unless-stopped -p 3000:3000 nsl-portf
+```
+
+## Update Docker (compose)
+
+```bash
+docker compose -f "<path-to-docker-compose.yml>" up -d --build portf
 ```
 
 ## Notes
 
 - Le dossier source d'extraction `extracted_assets_earth_tones` est ignore par Git.
-- Le dossier `.vercel` est ignore par Git.
