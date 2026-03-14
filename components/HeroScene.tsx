@@ -223,7 +223,7 @@ function getSectionContent(onPreview: (url: string) => void, lang: Lang): Record
         {[
           { name: "Hera Studio", desc: t("proj_hera_desc", lang), tech: "React, Firebase, Stripe, OpenAI", link: "https://www.herastudio.art" },
           { name: "CarChat", desc: t("proj_carchat_desc", lang), tech: "React, Vite, Framer Motion", link: "https://www.carchat.online" },
-          { name: "Fabulous Creations", desc: t("proj_fabulous_desc", lang), tech: "HTML, CSS, JavaScript", link: "https://aminssutt.github.io/Fabulous/" },
+          { name: "ECU Car Testing", desc: t("proj_ecu_desc", lang), tech: "Software Testing, Fault Simulation, Test Oracle", link: null },
           { name: "RePLY", desc: t("proj_reply_desc", lang), tech: "ML, IoT, Python, Hardware", link: null },
           { name: "AI Adventure", desc: t("proj_aiadventure_desc", lang), tech: "React, ML, Python, Gamification", link: null },
           { name: "Great Teachers", desc: t("proj_greatteachers_desc", lang), tech: "AI, React, Node.js", link: null },

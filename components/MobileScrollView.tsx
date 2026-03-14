@@ -449,10 +449,10 @@ function buildSections(
               link: "https://www.carchat.online",
             },
             {
-              name: "Fabulous Creations",
-              desc: t("proj_fabulous_desc", lang),
-              tech: "HTML, CSS, JavaScript",
-              link: "https://aminssutt.github.io/Fabulous/",
+              name: "ECU Car Testing",
+              desc: t("proj_ecu_desc", lang),
+              tech: "Software Testing, Fault Simulation, Test Oracle",
+              link: null,
             },
             {
               name: "RePLY",
