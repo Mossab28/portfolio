@@ -446,7 +446,7 @@ function buildSections(
               name: "CarChat",
               desc: t("proj_carchat_desc", lang),
               tech: "React, Vite, Framer Motion",
-              link: "https://carchat-frontend.onrender.com/",
+              link: "https://www.carchat.online",
             },
             {
               name: "Fabulous Creations",
