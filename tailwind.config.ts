@@ -9,16 +9,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        obsidian: "#0B0E0B",
-        "forest-900": "#111A13",
-        "forest-700": "#2E4830",
-        olive: "#6C7F56",
-        copper: "#9C6A3F",
-        bronze: "#B78A59",
-        sand: "#EDE8DD"
+        obsidian: "#0A0D1A",
+        "forest-900": "#0D1525",
+        "forest-700": "#1A3050",
+        olive: "#3B6FA0",
+        copper: "#2563EB",
+        bronze: "#60A5FA",
+        sand: "#E2E8F0"
       },
       boxShadow: {
-        copper: "0 20px 45px rgba(156, 106, 63, 0.22)",
+        copper: "0 20px 45px rgba(37, 99, 235, 0.22)",
         ambient: "0 30px 80px rgba(0, 0, 0, 0.42)"
       },
       backgroundImage: {

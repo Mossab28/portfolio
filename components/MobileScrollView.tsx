@@ -6,23 +6,22 @@ import { motion, AnimatePresence, useInView } from "framer-motion";
 import { t, getIconLabel, type Lang } from "@/lib/i18n";
 
 /* ── Language flags ── */
-const FLAGS: Record<Lang, string> = { en: "🇬🇧", fr: "🇫🇷", ko: "🇰🇷" };
-const LANG_ORDER: Lang[] = ["en", "fr", "ko"];
+const FLAGS: Record<Lang, string> = { en: "🇬🇧", fr: "🇫🇷", ar: "🇸🇦" };
+const LANG_ORDER: Lang[] = ["en", "fr", "ar"];
 
 /* ── Scattered icon positions — around center, avoiding title band ── */
 const MOBILE_ICONS = [
-  { id: "polyhedron", src: "/scene/icon-polyhedron.png", sectionId: "about", left: "22%", top: "10%", floatDelay: 0 },
-  { id: "text-card", src: "/scene/icon-text-card.png", sectionId: "education", left: "72%", top: "8%", floatDelay: 0.5 },
-  { id: "phone", src: "/scene/icon-phone.png", sectionId: "experience", left: "14%", top: "30%", floatDelay: 1.2 },
-  { id: "dots", src: "/scene/icon-color-dots.png", sectionId: "certifications", left: "76%", top: "32%", floatDelay: 0.8 },
-  { id: "toggle-stack", src: "/scene/icon-toggle-stack.png", sectionId: "tech-stack", left: "12%", top: "60%", floatDelay: 1.5 },
-  { id: "cubes", src: "/scene/icon-cubes.png", sectionId: "projects", left: "78%", top: "58%", floatDelay: 0.3 },
-  { id: "ai", src: "/scene/icon-ai.png", sectionId: "ai", left: "18%", top: "78%", floatDelay: 1.8 },
-  { id: "palette", src: "/scene/icon-palette.png", sectionId: "passions", left: "72%", top: "76%", floatDelay: 1.0 },
+  { id: "polyhedron", src: "/scene/icon-polyhedron.png", sectionId: "about", left: "20%", top: "8%", floatDelay: 0 },
+  { id: "text-card", src: "/scene/icon-text-card.png", sectionId: "education", left: "70%", top: "6%", floatDelay: 0.5 },
+  { id: "phone", src: "/scene/icon-phone.png", sectionId: "experience", left: "10%", top: "28%", floatDelay: 1.2 },
+  { id: "dots", src: "/scene/icon-color-dots.png", sectionId: "certifications", left: "78%", top: "28%", floatDelay: 0.8 },
+  { id: "toggle-stack", src: "/scene/icon-toggle-stack.png", sectionId: "tech-stack", left: "12%", top: "62%", floatDelay: 1.5 },
+  { id: "cubes", src: "/scene/icon-cubes.png", sectionId: "projects", left: "76%", top: "60%", floatDelay: 0.3 },
+  { id: "ai", src: "/scene/icon-ai.png", sectionId: "ai", left: "16%", top: "78%", floatDelay: 1.8 },
+  { id: "palette", src: "/scene/icon-palette.png", sectionId: "passions", left: "70%", top: "76%", floatDelay: 1.0 },
 ];
 
-const INTERNSHIP_CERTIFICATE_URL = "/Internship%20Certificate_Lakhdar%20BERACHE.pdf";
-const RESUME_EN_URL = "/CV_Berache_EN.pdf";
+const RESUME_EN_URL = "/CV_MossAb_EN.pdf";
 const isPdfPreviewUrl = (url: string) => /\.pdf(?:$|[?#])/i.test(url);
 
 /* ── Section definition ── */
@@ -45,7 +44,7 @@ function buildSections(
         <div className="space-y-4">
           <p className="text-base leading-relaxed text-white/70">
             {t("about_hello", lang)}{" "}
-            <span className="text-sand">Lakhdar Berache</span>
+            <span className="text-sand">Moss&apos;Ab MIRANDE-NEY</span>
             {t("about_desc", lang)}{" "}
             <span className="text-bronze">{t("about_skills", lang)}</span>
             {t("about_projects_combine", lang)}
@@ -53,7 +52,7 @@ function buildSections(
           <p className="text-sm text-white/50">{t("about_sub", lang)}</p>
           <div className="mt-4 flex flex-wrap gap-3">
             <a
-              href="https://github.com/aminssutt"
+              href="https://github.com/Mossab28"
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs text-sand transition-colors hover:bg-white/10"
@@ -61,7 +60,7 @@ function buildSections(
               GitHub
             </a>
             <a
-              href="https://www.linkedin.com/in/lakhdar-berache-62095426a/"
+              href="https://www.linkedin.com/in/moss-ab-mirande-ney-1a7abb205/"
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs text-sand transition-colors hover:bg-white/10"
@@ -76,9 +75,9 @@ function buildSections(
             <div className="grid grid-cols-2 gap-2">
               {[
                 { name: t("lang_french", lang), pct: 100 },
-                { name: t("lang_arabic", lang), pct: 95 },
-                { name: t("lang_english", lang), pct: 90 },
-                { name: t("lang_korean", lang), pct: 30 },
+                { name: t("lang_arabic", lang), pct: 100 },
+                { name: t("lang_english", lang), pct: 85 },
+                { name: t("lang_chinese", lang), pct: 40 },
               ].map((l) => (
                 <div key={l.name} className="space-y-1">
                   <span className="text-xs text-white/50">{l.name}</span>
@@ -102,8 +101,8 @@ function buildSections(
         <div className="space-y-4">
           {[
             {
-              logo: "/scene/KAIST_logo.svg.png",
-              alt: "KAIST",
+              logo: "/scene/logo-hiparis.jpg",
+              alt: "HI! Paris",
               title: t("edu_kaist_title", lang),
               period: t("edu_kaist_period", lang),
               desc: t("edu_kaist_desc", lang),
@@ -120,13 +119,19 @@ function buildSections(
               key={e.alt}
               className="flex items-start gap-3 rounded-lg border border-white/[0.06] bg-white/[0.02] p-4"
             >
-              <Image
-                src={e.logo}
-                alt={e.alt}
-                width={56}
-                height={56}
-                className="h-12 w-12 shrink-0 rounded-lg object-contain"
-              />
+              {e.logo ? (
+                <Image
+                  src={e.logo}
+                  alt={e.alt}
+                  width={56}
+                  height={56}
+                  className="h-12 w-12 shrink-0 rounded-lg object-contain"
+                />
+              ) : (
+                <div className="h-12 w-12 shrink-0 rounded-lg bg-white/[0.06] flex items-center justify-center">
+                  <span className="text-sm font-bold text-bronze/70">HI!</span>
+                </div>
+              )}
               <div>
                 <h4 className="text-base font-semibold text-sand">
                   {e.title}
@@ -146,11 +151,10 @@ function buildSections(
         <div className="space-y-5">
           {[
             {
-              company: "Renault Korea",
-              logoSrc: "/scene/renault logo.webp",
+              company: "Transport de la Grande Mare",
+              logoSrc: "",
               role: t("exp_renault_role", lang),
               period: t("exp_renault_period", lang),
-              certificateUrl: INTERNSHIP_CERTIFICATE_URL,
               bullets: [
                 t("exp_renault_b1", lang),
                 t("exp_renault_b2", lang),
@@ -160,28 +164,34 @@ function buildSections(
               ],
             },
             {
-              company: "FabulousCreations Studio",
-              logoSrc: "/scene/logo fabulous.png",
+              company: "Vitreteintees.com",
+              logoSrc: "",
               role: t("exp_fabulous_role", lang),
               period: t("exp_fabulous_period", lang),
               bullets: [t("exp_fabulous_b1", lang)],
             },
             {
-              company: "Columbus Café",
-              logoSrc: "/scene/logo columbus.png",
+              company: "Centrale Sneakers",
+              logoSrc: "",
               role: t("exp_columbus_role", lang),
               period: t("exp_columbus_period", lang),
               bullets: [t("exp_columbus_b1", lang)],
             },
           ].map((exp) => (
             <div key={exp.company} className="flex items-start gap-3">
-              <Image
-                src={exp.logoSrc}
-                alt={exp.company}
-                width={48}
-                height={48}
-                className="h-11 w-11 shrink-0 rounded-lg object-contain"
-              />
+              {exp.logoSrc ? (
+                <Image
+                  src={exp.logoSrc}
+                  alt={exp.company}
+                  width={48}
+                  height={48}
+                  className="h-11 w-11 shrink-0 rounded-lg object-contain"
+                />
+              ) : (
+                <div className="h-11 w-11 shrink-0 rounded-lg bg-white/[0.06] flex items-center justify-center">
+                  <span className="text-lg font-bold text-bronze/70">{exp.company.charAt(0)}</span>
+                </div>
+              )}
               <div className="flex-1 border-l-2 border-bronze/40 pl-3">
                 <h4 className="text-sm font-semibold text-sand">
                   {exp.role} — {exp.company}
@@ -192,15 +202,6 @@ function buildSections(
                     <li key={b}>{b}</li>
                   ))}
                 </ul>
-                {exp.certificateUrl && (
-                  <button
-                    type="button"
-                    onClick={() => onPreview(exp.certificateUrl)}
-                    className="mt-2 inline-flex rounded-md border border-bronze/30 bg-bronze/10 px-2 py-0.5 text-[10px] font-medium text-bronze"
-                  >
-                    Certificate
-                  </button>
-                )}
               </div>
             </div>
           ))}
@@ -212,103 +213,33 @@ function buildSections(
       iconId: "dots",
       content: (
         <div className="space-y-2">
-          {[
-            {
-              icon: (
-                <svg className="h-8 w-8 shrink-0" viewBox="0 0 21 21">
-                  <rect width="10" height="10" fill="#f25022" />
-                  <rect x="11" width="10" height="10" fill="#7fba00" />
-                  <rect width="10" height="10" y="11" fill="#00a4ef" />
-                  <rect x="11" y="11" width="10" height="10" fill="#ffb900" />
-                </svg>
-              ),
-              name: "AI Generative",
-              issuer: "Microsoft",
-              link: "https://www.linkedin.com/learning/certificates/5b5281b684492aa1a1337b3128d78a276ff7214baafb905a8662ba6aaeec7d88",
-            },
-            {
-              icon: (
-                <svg className="h-8 w-8 shrink-0" viewBox="0 0 21 21">
-                  <rect width="10" height="10" fill="#f25022" />
-                  <rect x="11" width="10" height="10" fill="#7fba00" />
-                  <rect width="10" height="10" y="11" fill="#00a4ef" />
-                  <rect x="11" y="11" width="10" height="10" fill="#ffb900" />
-                </svg>
-              ),
-              name: "Build a Computer Vision App with Azure",
-              issuer: "Microsoft",
-              link: null,
-            },
-            {
-              icon: (
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded bg-[#232F3E]">
-                  <span className="text-[10px] font-black tracking-tight text-[#FF9900]">
-                    aws
-                  </span>
-                </div>
-              ),
-              name: "Getting Started with AWS Generative AI",
-              issuer: "AWS",
-              link: "https://www.coursera.org/account/accomplishments/verify/NML0N2TUUO4V",
-            },
-            {
-              icon: (
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded bg-[#0F62FE]/15">
-                  <span className="text-xs font-black tracking-wider text-[#0F62FE]">
-                    IBM
-                  </span>
-                </div>
-              ),
-              name: "Build RAG Applications",
-              issuer: "IBM",
-              link: "https://www.coursera.org/account/accomplishments/verify/JU6HGK3RB32O",
-            },
-            {
-              icon: (
-                <Image
-                  src="/scene/board infinity logo.jpg"
-                  alt="Board Infinity"
-                  width={32}
-                  height={32}
-                  className="h-8 w-8 shrink-0 rounded object-contain"
-                />
-              ),
-              name: "Build Intelligent Agents Using DeepSeek & N8N",
-              issuer: "Board Infinity",
-              link: "https://www.coursera.org/account/accomplishments/verify/JO22VAEMU1AO",
-            },
-          ].map((c) => {
-            const inner = (
-              <>
-                {c.icon}
-                <div className="flex-1">
-                  <p className="text-xs text-sand">{c.name}</p>
-                  <p className="text-[10px] text-white/40">{c.issuer}</p>
-                </div>
-                {c.link && (
-                  <svg className="h-3.5 w-3.5 shrink-0 text-white/20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-                )}
-              </>
-            );
-            return c.link ? (
-              <a
-                key={c.name}
-                href={c.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 rounded-md border border-white/[0.06] bg-white/[0.02] px-3 py-2.5 transition-colors hover:border-bronze/30 hover:bg-white/[0.05]"
-              >
-                {inner}
-              </a>
-            ) : (
-              <div
-                key={c.name}
-                className="flex items-center gap-3 rounded-md border border-white/[0.06] bg-white/[0.02] px-3 py-2.5"
-              >
-                {inner}
-              </div>
-            );
-          })}
+          <div className="flex items-center gap-3 rounded-md border border-white/[0.06] bg-white/[0.02] px-3 py-2.5">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded bg-[#0077B5]/15">
+              <span className="text-[10px] font-black text-[#0077B5]">C1</span>
+            </div>
+            <div className="flex-1">
+              <p className="text-xs text-sand">English C1</p>
+              <p className="text-[10px] text-white/40">Linguaskill</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 rounded-md border border-white/[0.06] bg-white/[0.02] px-3 py-2.5">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded bg-[#306998]/15">
+              <span className="text-[10px] font-black text-[#FFD43B]">Py</span>
+            </div>
+            <div className="flex-1">
+              <p className="text-xs text-sand">Python Certification</p>
+              <p className="text-[10px] text-white/40">freeCodeCamp</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 rounded-md border border-white/[0.06] bg-white/[0.02] px-3 py-2.5">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded bg-[#E31937]/15">
+              <span className="text-[9px] font-black text-[#E31937]">HI!</span>
+            </div>
+            <div className="flex-1">
+              <p className="text-xs text-sand">Data Engineering & ML Bootcamp</p>
+              <p className="text-[10px] text-white/40">HI! Paris — Polytechnique & Télécom Paris</p>
+            </div>
+          </div>
         </div>
       ),
     },
@@ -319,44 +250,10 @@ function buildSections(
         <div className="space-y-5">
           <p className="text-xs text-white/50">{t("tech_intro", lang)}</p>
           {[
-            {
-              cat: t("tech_frontend", lang),
-              techs: [
-                "React",
-                "Next.js",
-                "TypeScript",
-                "TailwindCSS",
-                "Framer Motion",
-                "GSAP",
-              ],
-            },
-            {
-              cat: t("tech_backend", lang),
-              techs: [
-                "Node.js",
-                "Firebase",
-                "Supabase",
-                "PostgreSQL",
-                "Stripe",
-              ],
-            },
-            {
-              cat: t("tech_aidata", lang),
-              techs: [
-                "Gemini API",
-                "LangChain",
-                "Python",
-                "TensorFlow",
-                "ML/DL",
-                "NLP",
-                "Computer Vision",
-                "LLM / RAG",
-              ],
-            },
-            {
-              cat: t("tech_tools", lang),
-              techs: ["Git", "Vercel", "Docker", "ROS2", "Figma"],
-            },
+            { cat: t("tech_frontend", lang), techs: ["React.js", "HTML/CSS", "Flutter", "TailwindCSS"] },
+            { cat: t("tech_backend", lang), techs: ["Node.js", "Express", "Flask", "FastAPI", "MongoDB", "MySQL"] },
+            { cat: t("tech_aidata", lang), techs: ["LangChain", "NLP", "LLMs", "Python", "Machine Learning"] },
+            { cat: t("tech_tools", lang), techs: ["Git", "Docker", "Linux", "Wireshark", "Windows Server"] },
           ].map((g) => (
             <div key={g.cat}>
               <h4 className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.15em] text-bronze">
@@ -386,26 +283,26 @@ function buildSections(
                     t("skill_fullstack", lang),
                     t("skill_restapi", lang),
                     t("skill_realtime", lang),
-                    "PWA",
-                    "SEO",
+                    "Flutter",
+                    "Socket.IO",
                   ],
                 },
                 {
                   area: t("tech_dataAnalytics", lang),
                   items: [
-                    t("skill_datapipe", lang),
-                    t("skill_statanalysis", lang),
-                    t("skill_visualization", lang),
-                    "SQL / NoSQL",
+                    "TCP/IP & Routing",
+                    "Network Security",
+                    "Systems Administration",
+                    "DNS/DHCP/VLAN",
                   ],
                 },
                 {
                   area: t("tech_softSkills", lang),
                   items: [
                     t("skill_leadership", lang),
-                    "Agile XP",
+                    "Agile",
                     t("skill_speaking", lang),
-                    t("skill_crosscultural", lang),
+                    "Adaptability",
                   ],
                 },
               ].map((group) => (
@@ -437,39 +334,39 @@ function buildSections(
         <div className="space-y-3">
           {[
             {
-              name: "Hera Studio",
+              name: "XTrading Bot",
               desc: t("proj_hera_desc", lang),
-              tech: "React, Firebase, Stripe, OpenAI",
-              link: "https://www.herastudio.art",
+              tech: "Python, ML, NLP, Time-Series",
+              link: null,
             },
             {
-              name: "CarChat",
+              name: "LinkBoost",
               desc: t("proj_carchat_desc", lang),
-              tech: "React, Vite, Framer Motion",
-              link: "https://www.carchat.online",
+              tech: "Python, NLP, Browser Automation",
+              link: null,
             },
             {
-              name: "ECU Car Testing",
+              name: "MegawattUTT",
               desc: t("proj_ecu_desc", lang),
-              tech: "Software Testing, Fault Simulation, Test Oracle",
+              tech: "3D, Physics Simulation, Training",
               link: null,
             },
             {
-              name: "RePLY",
+              name: "Néréides UTT",
               desc: t("proj_reply_desc", lang),
-              tech: "ML, IoT, Python, Hardware",
-              link: null,
+              tech: "Embedded Systems, Telemetry, IoT",
+              link: "https://nereides.utt.fr",
             },
             {
-              name: "AI Adventure",
+              name: "Ride-Hailing App",
               desc: t("proj_aiadventure_desc", lang),
-              tech: "React, ML, Python, Gamification",
+              tech: "Flutter, Node.js, MongoDB, Socket.IO",
               link: null,
             },
             {
-              name: "Great Teachers",
+              name: "Vitreteintees.com",
               desc: t("proj_greatteachers_desc", lang),
-              tech: "AI, React, Node.js",
+              tech: "Web, HTML/CSS, JavaScript",
               link: null,
             },
           ].map((p) => (
@@ -549,17 +446,17 @@ function buildSections(
           <p className="text-sm text-white/60">{t("passions_intro", lang)}</p>
           {[
             {
-              emoji: "⚽",
+              emoji: "🏋️",
               title: t("passion_football", lang),
               desc: t("passion_football_d", lang),
             },
             {
-              emoji: "🏐",
+              emoji: "🤾",
               title: t("passion_volleyball", lang),
               desc: t("passion_volleyball_d", lang),
             },
             {
-              emoji: "🎨",
+              emoji: "🔒",
               title: t("passion_art", lang),
               desc: t("passion_art_d", lang),
             },
@@ -660,21 +557,45 @@ export default function MobileScrollView() {
     <div className="relative h-[100dvh] overflow-hidden bg-obsidian">
       {/* ── Hero — full viewport ── */}
       <div className="relative h-[100dvh] overflow-hidden">
-        {/* Background image */}
-        <div className="pointer-events-none absolute inset-0 z-0">
-          <Image
-            src="/scene/background%20mobile.png"
-            alt=""
-            fill
-            priority
-            className="object-cover object-center"
-            sizes="100vw"
+        {/* Dark background with subtle top glow */}
+        <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(ellipse_80%_40%_at_50%_10%,#0c1a3a_0%,#060d1e_30%,#020408_55%,#000000_100%)]" />
+
+        {/* 3D perspective floor grid — bottom half */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-[52%] overflow-hidden" style={{ perspective: '400px' }}>
+          <div
+            className="absolute inset-0"
+            style={{
+              transformOrigin: 'center top',
+              transform: 'rotateX(55deg)',
+              background: `
+                repeating-linear-gradient(90deg, rgba(96,165,250,0.06) 0px, rgba(96,165,250,0.06) 1px, transparent 1px, transparent 60px),
+                repeating-linear-gradient(0deg, rgba(96,165,250,0.06) 0px, rgba(96,165,250,0.06) 1px, transparent 1px, transparent 60px)
+              `,
+            }}
           />
+          {/* Cross marks on the grid */}
+          <div className="absolute inset-0" style={{ transformOrigin: 'center top', transform: 'rotateX(55deg)' }}>
+            {Array.from({ length: 40 }).map((_, i) => {
+              const col = i % 8;
+              const row = Math.floor(i / 8);
+              return (
+                <span
+                  key={i}
+                  className="absolute text-[rgba(96,165,250,0.1)] text-sm"
+                  style={{ left: `${8 + col * 12}%`, top: `${row * 20}%` }}
+                >
+                  ✦
+                </span>
+              );
+            })}
+          </div>
+          {/* Fade at top of floor */}
+          <div className="absolute inset-x-0 top-0 h-[30%] bg-gradient-to-b from-black to-transparent z-10" />
         </div>
 
-        {/* ── Title — centered with typewriter animation ── */}
-        <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
-          <h1 className="font-[var(--font-display)] text-[2rem] font-semibold tracking-[0.10em] text-bronze/80 text-center leading-tight drop-shadow-[0_2px_16px_rgba(183,138,89,0.3)]">
+        {/* ── Title — center of screen ── */}
+        <div className="absolute inset-x-0 top-[44%] z-10 flex justify-center pointer-events-none">
+          <h1 className="font-[var(--font-display)] text-[1.8rem] font-semibold tracking-[0.10em] text-bronze/80 text-center leading-tight drop-shadow-[0_2px_16px_rgba(96,165,250,0.3)]">
             {t("portfolioTitle", lang).split("").map((char, i) => (
               <motion.span
                 key={`${lang}-${i}`}
@@ -775,7 +696,7 @@ export default function MobileScrollView() {
           {/* Links */}
           <div className="flex items-center gap-2">
             <a
-              href="https://github.com/aminssutt"
+              href="https://github.com/Mossab28"
               target="_blank"
               rel="noopener noreferrer"
               className="flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-white/5"
@@ -785,7 +706,7 @@ export default function MobileScrollView() {
               </svg>
             </a>
             <a
-              href="https://www.linkedin.com/in/lakhdar-berache-62095426a/"
+              href="https://www.linkedin.com/in/moss-ab-mirande-ney-1a7abb205/"
               target="_blank"
               rel="noopener noreferrer"
               className="flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-white/5"
@@ -838,16 +759,16 @@ export default function MobileScrollView() {
         </p>
         <div className="flex flex-col gap-2 w-full max-w-xs">
           <a
-            href="mailto:lakhdarberache@gmail.com"
+            href="mailto:mossab.mirandeney1@gmail.com"
             className="flex items-center gap-3 rounded-lg border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-xs text-sand transition-colors hover:border-bronze/30"
           >
-            lakhdarberache@gmail.com
+            mossab.mirandeney1@gmail.com
           </a>
           <a
-            href="tel:+33781500771"
+            href="tel:+33763801847"
             className="flex items-center gap-3 rounded-lg border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-xs text-sand transition-colors hover:border-bronze/30"
           >
-            +33 7 81 50 07 71
+            +33 7 63 80 18 47
           </a>
         </div>
       </div>
@@ -945,20 +866,20 @@ export default function MobileScrollView() {
               </p>
               <div className="mt-5 space-y-2">
                 <a
-                  href="mailto:lakhdarberache@gmail.com"
+                  href="mailto:mossab.mirandeney1@gmail.com"
                   className="flex items-center gap-3 rounded-lg border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-xs text-sand transition-colors hover:border-bronze/30"
                 >
-                  lakhdarberache@gmail.com
+                  mossab.mirandeney1@gmail.com
                 </a>
                 <a
-                  href="tel:+33781500771"
+                  href="tel:+33763801847"
                   className="flex items-center gap-3 rounded-lg border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-xs text-sand transition-colors hover:border-bronze/30"
                 >
-                  +33 7 81 50 07 71
+                  +33 7 63 80 18 47
                 </a>
                 <a
                   href={RESUME_EN_URL}
-                  download="Lakhdar_Berache_Resume_EN.pdf"
+                  download="MossAb_MIRANDE-NEY_Resume_EN.pdf"
                   className="flex items-center gap-3 rounded-lg border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-xs text-sand transition-colors hover:border-bronze/30"
                 >
                   Resume (EN)

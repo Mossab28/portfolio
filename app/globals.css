@@ -3,13 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --obsidian: #0b0e0b;
-  --forest-dark: #111a13;
-  --forest-mid: #2e4830;
-  --olive: #6c7f56;
-  --copper: #9c6a3f;
-  --bronze: #b78a59;
-  --sand: #ede8dd;
+  --obsidian: #0A0D1A;
+  --forest-dark: #0D1525;
+  --forest-mid: #1A3050;
+  --olive: #3B6FA0;
+  --copper: #2563EB;
+  --bronze: #60A5FA;
+  --sand: #E2E8F0;
 }
 
 * {
@@ -29,15 +29,15 @@ body {
   background-image:
     radial-gradient(
       circle at 15% 0%,
-      rgba(108, 127, 86, 0.2) 0%,
-      rgba(11, 14, 11, 0) 38%
+      rgba(59, 111, 160, 0.2) 0%,
+      rgba(10, 13, 26, 0) 38%
     ),
     radial-gradient(
       circle at 85% 0%,
-      rgba(156, 106, 63, 0.16) 0%,
-      rgba(11, 14, 11, 0) 42%
+      rgba(37, 99, 235, 0.16) 0%,
+      rgba(10, 13, 26, 0) 42%
     ),
-    linear-gradient(180deg, #0b0e0b 0%, #060805 100%);
+    linear-gradient(180deg, #0A0D1A 0%, #050813 100%);
 }
 
 h1,
@@ -49,7 +49,7 @@ h4 {
 }
 
 ::selection {
-  background: rgba(183, 138, 89, 0.34);
+  background: rgba(96, 165, 250, 0.34);
   color: #ffffff;
 }
 
@@ -61,7 +61,7 @@ h4 {
   .glass-panel {
     @apply rounded-2xl border border-white/10 bg-white/[0.035] backdrop-blur-xl;
     scrollbar-width: thin;
-    scrollbar-color: rgba(183, 138, 89, 0.35) transparent;
+    scrollbar-color: rgba(96, 165, 250, 0.35) transparent;
   }
 
   .glass-panel::-webkit-scrollbar {
@@ -73,12 +73,12 @@ h4 {
   }
 
   .glass-panel::-webkit-scrollbar-thumb {
-    background: rgba(183, 138, 89, 0.35);
+    background: rgba(96, 165, 250, 0.35);
     border-radius: 9999px;
   }
 
   .glass-panel::-webkit-scrollbar-thumb:hover {
-    background: rgba(183, 138, 89, 0.55);
+    background: rgba(96, 165, 250, 0.55);
   }
 }
 

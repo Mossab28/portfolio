@@ -38,14 +38,14 @@ export default function HomePage() {
         {!loaded && (
           <motion.div
             key="loader"
-            className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-[#0B0E0B]"
+            className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-[#0A0D1A]"
             exit={{ opacity: 0 }}
             transition={{ duration: 0.6, ease: "easeInOut" }}
           >
             <div className="relative mb-6 h-10 w-10">
-              <div className="absolute inset-0 animate-spin rounded-full border-2 border-transparent border-t-[#B78A59]" />
+              <div className="absolute inset-0 animate-spin rounded-full border-2 border-transparent border-t-[#60A5FA]" />
             </div>
-            <p className="text-sm tracking-[0.3em] text-[#B78A59]/60">LOADING</p>
+            <p className="text-sm tracking-[0.3em] text-[#60A5FA]/60">LOADING</p>
           </motion.div>
         )}
       </AnimatePresence>

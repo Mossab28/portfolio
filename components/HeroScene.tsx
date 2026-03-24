@@ -94,8 +94,7 @@ const SCENE_ICONS: SceneIcon[] = [
   }
 ];
 
-const INTERNSHIP_CERTIFICATE_URL = "/Internship%20Certificate_Lakhdar%20BERACHE.pdf";
-const RESUME_EN_URL = "/CV_Berache_EN.pdf";
+const RESUME_EN_URL = "/CV_MossAb_EN.pdf";
 const isPdfPreviewUrl = (url: string) => /\.pdf(?:$|[?#])/i.test(url);
 
 /* ── Section content ── */
@@ -104,22 +103,22 @@ function getSectionContent(onPreview: (url: string) => void, lang: Lang): Record
     polyhedron: (
       <div className="space-y-4">
         <p>
-          {t("about_hello", lang)} <span className="text-sand">Lakhdar Berache</span>{t("about_desc", lang)}{" "}
+          {t("about_hello", lang)} <span className="text-sand">Moss&apos;Ab MIRANDE-NEY</span>{t("about_desc", lang)}{" "}
           <span className="text-bronze">{t("about_skills", lang)}</span>{t("about_projects_combine", lang)}
         </p>
         <p className="text-base text-white/55">{t("about_sub", lang)}</p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <a href="https://github.com/aminssutt" target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs text-sand transition-colors hover:bg-white/10">GitHub</a>
-          <a href="https://www.linkedin.com/in/lakhdar-berache-62095426a/" target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs text-sand transition-colors hover:bg-white/10">LinkedIn</a>
+          <a href="https://github.com/Mossab28" target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs text-sand transition-colors hover:bg-white/10">GitHub</a>
+          <a href="https://www.linkedin.com/in/moss-ab-mirande-ney-1a7abb205/" target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs text-sand transition-colors hover:bg-white/10">LinkedIn</a>
         </div>
         <div className="mt-6 space-y-2">
           <p className="text-sm uppercase tracking-[0.2em] text-bronze">{t("about_langTitle", lang)}</p>
           <div className="grid grid-cols-2 gap-2">
             {[
               { name: t("lang_french", lang), pct: 100 },
-              { name: t("lang_arabic", lang), pct: 95 },
-              { name: t("lang_english", lang), pct: 90 },
-              { name: t("lang_korean", lang), pct: 30 }
+              { name: t("lang_arabic", lang), pct: 100 },
+              { name: t("lang_english", lang), pct: 85 },
+              { name: t("lang_chinese", lang), pct: 40 }
             ].map((l) => (
               <div key={l.name} className="space-y-1">
                 <span className="text-sm text-white/50">{l.name}</span>
@@ -137,12 +136,11 @@ function getSectionContent(onPreview: (url: string) => void, lang: Lang): Record
       <div className="space-y-6">
         {[
           {
-            company: "Renault Korea",
-            logoSrc: "/scene/renault logo.webp",
+            company: "Transport de la Grande Mare",
+            logoSrc: "",
             logoClass: "h-12 w-12 md:h-20 md:w-20",
             role: t("exp_renault_role", lang),
             period: t("exp_renault_period", lang),
-            certificateUrl: INTERNSHIP_CERTIFICATE_URL,
             bullets: [
               t("exp_renault_b1", lang),
               t("exp_renault_b2", lang),
@@ -152,8 +150,8 @@ function getSectionContent(onPreview: (url: string) => void, lang: Lang): Record
             ]
           },
           {
-            company: "FabulousCreations Studio",
-            logoSrc: "/scene/logo fabulous.png",
+            company: "Vitreteintees.com",
+            logoSrc: "",
             logoClass: "h-12 w-12 md:h-20 md:w-20",
             role: t("exp_fabulous_role", lang),
             period: t("exp_fabulous_period", lang),
@@ -162,8 +160,8 @@ function getSectionContent(onPreview: (url: string) => void, lang: Lang): Record
             ]
           },
           {
-            company: "Columbus Café",
-            logoSrc: "/scene/logo columbus.png",
+            company: "Centrale Sneakers",
+            logoSrc: "",
             logoClass: "h-12 w-12 md:h-20 md:w-20",
             role: t("exp_columbus_role", lang),
             period: t("exp_columbus_period", lang),
@@ -173,7 +171,13 @@ function getSectionContent(onPreview: (url: string) => void, lang: Lang): Record
           },
         ].map((exp) => (
           <div key={exp.company} className="flex items-start gap-4">
-            <Image src={exp.logoSrc} alt={exp.company} width={80} height={80} className={`${exp.logoClass} shrink-0 rounded-lg object-contain`} />
+            {exp.logoSrc ? (
+              <Image src={exp.logoSrc} alt={exp.company} width={80} height={80} className={`${exp.logoClass} shrink-0 rounded-lg object-contain`} />
+            ) : (
+              <div className={`${exp.logoClass} shrink-0 rounded-lg bg-white/[0.06] flex items-center justify-center`}>
+                <span className="text-2xl font-bold text-bronze/70">{exp.company.charAt(0)}</span>
+              </div>
+            )}
             <div className="flex-1 border-l-2 border-bronze/40 pl-4">
               <h4 className="text-base font-semibold text-sand">{exp.role} — {exp.company}</h4>
               <p className="mt-1 text-sm text-bronze">{exp.period}</p>
@@ -182,15 +186,6 @@ function getSectionContent(onPreview: (url: string) => void, lang: Lang): Record
                   <li key={b}>{b}</li>
                 ))}
               </ul>
-              {exp.certificateUrl && (
-                <button
-                  type="button"
-                  onClick={() => onPreview(exp.certificateUrl)}
-                  className="mt-3 inline-flex rounded-md border border-bronze/30 bg-bronze/10 px-2.5 py-1 text-[11px] font-medium text-bronze transition-colors hover:bg-bronze/20"
-                >
-                  Certificate
-                </button>
-              )}
             </div>
           </div>
         ))}
@@ -200,7 +195,7 @@ function getSectionContent(onPreview: (url: string) => void, lang: Lang): Record
     "text-card": (
       <div className="space-y-6">
         <div className="flex items-start gap-4 rounded-lg border border-white/[0.06] bg-white/[0.02] p-4">
-          <Image src="/scene/KAIST_logo.svg.png" alt="KAIST" width={72} height={72} className="h-12 w-12 shrink-0 rounded-lg object-contain md:h-[4.5rem] md:w-[4.5rem]" />
+          <Image src="/scene/logo-hiparis.jpg" alt="HI! Paris" width={72} height={72} className="h-12 w-12 shrink-0 rounded-lg object-contain md:h-[4.5rem] md:w-[4.5rem]" />
           <div>
             <h4 className="text-lg font-semibold text-sand">{t("edu_kaist_title", lang)}</h4>
             <p className="mt-1 text-sm text-bronze">{t("edu_kaist_period", lang)}</p>
@@ -221,12 +216,12 @@ function getSectionContent(onPreview: (url: string) => void, lang: Lang): Record
     cubes: (
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4">
         {[
-          { name: "Hera Studio", desc: t("proj_hera_desc", lang), tech: "React, Firebase, Stripe, OpenAI", link: "https://www.herastudio.art" },
-          { name: "CarChat", desc: t("proj_carchat_desc", lang), tech: "React, Vite, Framer Motion", link: "https://www.carchat.online" },
-          { name: "ECU Car Testing", desc: t("proj_ecu_desc", lang), tech: "Software Testing, Fault Simulation, Test Oracle", link: null },
-          { name: "RePLY", desc: t("proj_reply_desc", lang), tech: "ML, IoT, Python, Hardware", link: null },
-          { name: "AI Adventure", desc: t("proj_aiadventure_desc", lang), tech: "React, ML, Python, Gamification", link: null },
-          { name: "Great Teachers", desc: t("proj_greatteachers_desc", lang), tech: "AI, React, Node.js", link: null },
+          { name: "XTrading Bot", desc: t("proj_hera_desc", lang), tech: "Python, ML, NLP, Time-Series", link: null },
+          { name: "LinkBoost", desc: t("proj_carchat_desc", lang), tech: "Python, NLP, Browser Automation", link: null },
+          { name: "MegawattUTT", desc: t("proj_ecu_desc", lang), tech: "3D, Physics Simulation, Training", link: null },
+          { name: "Nereides UTT", desc: t("proj_reply_desc", lang), tech: "Embedded Systems, Telemetry, IoT", link: "https://nereides.utt.fr" },
+          { name: "Ride-Hailing App", desc: t("proj_aiadventure_desc", lang), tech: "Flutter, Node.js, MongoDB, Socket.IO", link: null },
+          { name: "Vitreteintees.com", desc: t("proj_greatteachers_desc", lang), tech: "Web, HTML/CSS, JavaScript", link: null },
         ].map((p) => (
           <div
             key={p.name}
@@ -259,10 +254,10 @@ function getSectionContent(onPreview: (url: string) => void, lang: Lang): Record
       <div className="space-y-6">
         <p className="text-sm text-white/50">{t("tech_intro", lang)}</p>
         {[
-          { category: t("tech_frontend", lang), techs: ["React", "Next.js", "TypeScript", "TailwindCSS", "Framer Motion", "GSAP"] },
-          { category: t("tech_backend", lang), techs: ["Node.js", "Firebase", "Supabase", "PostgreSQL", "Stripe"] },
-          { category: t("tech_aidata", lang), techs: ["Gemini API", "LangChain", "Python", "TensorFlow", "ML/DL", "NLP", "Computer Vision", "LLM / RAG"] },
-          { category: t("tech_tools", lang), techs: ["Git", "Vercel", "Docker", "ROS2", "Figma"] },
+          { category: t("tech_frontend", lang), techs: ["React.js", "HTML/CSS", "Flutter", "TailwindCSS"] },
+          { category: t("tech_backend", lang), techs: ["Node.js", "Express", "Flask", "FastAPI", "MongoDB", "MySQL"] },
+          { category: t("tech_aidata", lang), techs: ["LangChain", "NLP", "LLMs", "Python", "Machine Learning"] },
+          { category: t("tech_tools", lang), techs: ["Git", "Docker", "Linux", "Wireshark", "Windows Server"] },
         ].map((cat) => (
           <div key={cat.category}>
             <h4 className="mb-2.5 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.15em] text-bronze">
@@ -279,9 +274,9 @@ function getSectionContent(onPreview: (url: string) => void, lang: Lang): Record
           <h4 className="mb-3 text-sm font-semibold uppercase tracking-[0.15em] text-bronze">{t("tech_profSkills", lang)}</h4>
           <div className="space-y-4">
             {[
-              { area: t("tech_webMobile", lang), items: [t("skill_fullstack", lang), t("skill_restapi", lang), t("skill_realtime", lang), "PWA", "SEO"] },
-              { area: t("tech_dataAnalytics", lang), items: [t("skill_datapipe", lang), t("skill_statanalysis", lang), t("skill_visualization", lang), "SQL / NoSQL"] },
-              { area: t("tech_softSkills", lang), items: [t("skill_leadership", lang), "Agile XP", t("skill_speaking", lang), t("skill_crosscultural", lang)] },
+              { area: t("tech_webMobile", lang), items: [t("skill_fullstack", lang), t("skill_restapi", lang), t("skill_realtime", lang), "Flutter", "Socket.IO"] },
+              { area: t("tech_dataAnalytics", lang), items: ["TCP/IP & Routing", "Network Security", "Systems Administration", "DNS/DHCP/VLAN"] },
+              { area: t("tech_softSkills", lang), items: [t("skill_leadership", lang), "Agile", t("skill_speaking", lang), "Adaptability"] },
             ].map((group) => (
               <div key={group.area}>
                 <h5 className="mb-2 text-xs font-medium uppercase tracking-[0.15em] text-sand/50">{group.area}</h5>
@@ -303,9 +298,9 @@ function getSectionContent(onPreview: (url: string) => void, lang: Lang): Record
         <p className="text-base text-white/60">{t("passions_intro", lang)}</p>
         <div className="space-y-4">
           {[
-            { emoji: "⚽", title: t("passion_football", lang), desc: t("passion_football_d", lang) },
-            { emoji: "🏐", title: t("passion_volleyball", lang), desc: t("passion_volleyball_d", lang) },
-            { emoji: "🎨", title: t("passion_art", lang), desc: t("passion_art_d", lang) },
+            { emoji: "🏋️", title: t("passion_football", lang), desc: t("passion_football_d", lang) },
+            { emoji: "🤾", title: t("passion_volleyball", lang), desc: t("passion_volleyball_d", lang) },
+            { emoji: "🔒", title: t("passion_art", lang), desc: t("passion_art_d", lang) },
             { emoji: "🚀", title: t("passion_entrepreneurship", lang), desc: t("passion_entrepreneurship_d", lang) },
             { emoji: "🤝", title: t("passion_humanlaw", lang), desc: t("passion_humanlaw_d", lang) },
           ].map((item) => (
@@ -344,49 +339,33 @@ function getSectionContent(onPreview: (url: string) => void, lang: Lang): Record
     dots: (
       <div className="space-y-4">
         <div className="space-y-2">
-          <a href="https://www.linkedin.com/learning/certificates/5b5281b684492aa1a1337b3128d78a276ff7214baafb905a8662ba6aaeec7d88" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3 transition-colors hover:border-bronze/30 hover:bg-white/[0.05]">
-            <svg className="h-9 w-9 shrink-0" viewBox="0 0 21 21"><rect width="10" height="10" fill="#f25022"/><rect x="11" width="10" height="10" fill="#7fba00"/><rect width="10" height="10" y="11" fill="#00a4ef"/><rect x="11" y="11" width="10" height="10" fill="#ffb900"/></svg>
-            <div className="flex-1">
-              <p className="text-sm text-sand">AI Generative</p>
-              <p className="text-xs text-white/40">Microsoft</p>
-            </div>
-            <svg className="h-4 w-4 shrink-0 text-white/20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-          </a>
           <div className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3">
-            <svg className="h-9 w-9 shrink-0" viewBox="0 0 21 21"><rect width="10" height="10" fill="#f25022"/><rect x="11" width="10" height="10" fill="#7fba00"/><rect width="10" height="10" y="11" fill="#00a4ef"/><rect x="11" y="11" width="10" height="10" fill="#ffb900"/></svg>
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#0077B5]/15">
+              <span className="text-xs font-black text-[#0077B5]">C1</span>
+            </div>
             <div>
-              <p className="text-sm text-sand">Build a Computer Vision App with Azure</p>
-              <p className="text-xs text-white/40">Microsoft</p>
+              <p className="text-sm text-sand">English C1</p>
+              <p className="text-xs text-white/40">Linguaskill</p>
             </div>
           </div>
-          <a href="https://www.coursera.org/account/accomplishments/verify/NML0N2TUUO4V" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3 transition-colors hover:border-bronze/30 hover:bg-white/[0.05]">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#232F3E]">
-              <span className="text-[11px] font-black tracking-tight text-[#FF9900]">aws</span>
+          <div className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#306998]/15">
+              <span className="text-xs font-black text-[#FFD43B]">Py</span>
             </div>
-            <div className="flex-1">
-              <p className="text-sm text-sand">Getting Started with AWS Generative AI for Developers</p>
-              <p className="text-xs text-white/40">AWS</p>
+            <div>
+              <p className="text-sm text-sand">Python Certification</p>
+              <p className="text-xs text-white/40">freeCodeCamp</p>
             </div>
-            <svg className="h-4 w-4 shrink-0 text-white/20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-          </a>
-          <a href="https://www.coursera.org/account/accomplishments/verify/JU6HGK3RB32O" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3 transition-colors hover:border-bronze/30 hover:bg-white/[0.05]">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#0F62FE]/15">
-              <span className="text-sm font-black tracking-wider text-[#0F62FE]">IBM</span>
+          </div>
+          <div className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#E31937]/15">
+              <span className="text-[9px] font-black text-[#E31937]">HI!</span>
             </div>
-            <div className="flex-1">
-              <p className="text-sm text-sand">Build RAG Applications</p>
-              <p className="text-xs text-white/40">IBM</p>
+            <div>
+              <p className="text-sm text-sand">Data Engineering & Machine Learning Bootcamp</p>
+              <p className="text-xs text-white/40">HI! Paris — Ecole Polytechnique & Telecom Paris</p>
             </div>
-            <svg className="h-4 w-4 shrink-0 text-white/20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-          </a>
-          <a href="https://www.coursera.org/account/accomplishments/verify/JO22VAEMU1AO" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3 transition-colors hover:border-bronze/30 hover:bg-white/[0.05]">
-            <Image src="/scene/board infinity logo.jpg" alt="Board Infinity" width={40} height={40} className="h-10 w-10 shrink-0 rounded-md object-contain" />
-            <div className="flex-1">
-              <p className="text-sm text-sand">Build Intelligent Agents Using DeepSeek &amp; N8N</p>
-              <p className="text-xs text-white/40">Board Infinity</p>
-            </div>
-            <svg className="h-4 w-4 shrink-0 text-white/20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-          </a>
+          </div>
         </div>
       </div>
     )
@@ -406,7 +385,7 @@ function CrossGrid() {
       crosses.push(
         <span
           key={`${r}-${c}`}
-          className="cross-mark absolute text-white/[0.06] transition-all duration-500 hover:text-bronze/60 hover:drop-shadow-[0_0_8px_rgba(183,138,89,0.5)]"
+          className="cross-mark absolute text-white/[0.06] transition-all duration-500 hover:text-bronze/60 hover:drop-shadow-[0_0_8px_rgba(96,165,250,0.5)]"
           style={{
             left: `${left}%`,
             top: `${top}%`,
@@ -427,8 +406,8 @@ function CrossGrid() {
 }
 
 /* ── Language switcher ── */
-const FLAGS: Record<Lang, string> = { en: "🇬🇧", fr: "🇫🇷", ko: "🇰🇷" };
-const LANG_ORDER: Lang[] = ["en", "fr", "ko"];
+const FLAGS: Record<Lang, string> = { en: "🇬🇧", fr: "🇫🇷", ar: "🇸🇦" };
+const LANG_ORDER: Lang[] = ["en", "fr", "ar"];
 
 function LangSwitcher({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
   const [open, setOpen] = useState(false);
@@ -516,10 +495,10 @@ function MobileMenu({ lang, setLang, onContact }: { lang: Lang; setLang: (l: Lan
               ))}
             </div>
             <div className="flex items-center justify-center gap-4">
-              <a href="https://github.com/aminssutt" target="_blank" rel="noopener noreferrer" className="text-white/40 transition-colors hover:text-sand">
+              <a href="https://github.com/Mossab28" target="_blank" rel="noopener noreferrer" className="text-white/40 transition-colors hover:text-sand">
                 <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
               </a>
-              <a href="https://www.linkedin.com/in/lakhdar-berache-62095426a/" target="_blank" rel="noopener noreferrer" className="text-white/40 transition-colors hover:text-sand">
+              <a href="https://www.linkedin.com/in/moss-ab-mirande-ney-1a7abb205/" target="_blank" rel="noopener noreferrer" className="text-white/40 transition-colors hover:text-sand">
                 <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
               </a>
             </div>
@@ -593,19 +572,22 @@ export default function HeroScene() {
         }
         transition={springTransition}
       >
-        <div className="absolute inset-0 bg-black" />
+        {/* Dark navy base with blue center glow matching avatar background */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_70%_at_50%_40%,#0c1a3a_0%,#060d1e_40%,#020408_70%,#000000_100%)]" />
 
         {/* Glow behind avatar */}
         <div className="pointer-events-none absolute inset-0 z-[8]">
-          <div className="absolute left-1/2 top-[38%] h-[50vh] w-[50vh] -translate-x-1/2 -translate-y-1/2 rounded-full bg-bronze/20 blur-[120px]" />
-          <div className="absolute left-1/2 top-[42%] h-[30vh] w-[30vh] -translate-x-1/2 -translate-y-1/2 rounded-full bg-copper/25 blur-[80px]" />
-          <div className="absolute left-1/2 top-[36%] h-[18vh] w-[18vh] -translate-x-1/2 -translate-y-1/2 rounded-full bg-olive/20 blur-[60px]" />
+          <div className="absolute left-1/2 top-[36%] h-[70vh] w-[60vh] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0f2557]/50 blur-[140px]" />
+          <div className="absolute left-1/2 top-[40%] h-[45vh] w-[40vh] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#1a3a7a]/35 blur-[100px]" />
+          <div className="absolute left-1/2 top-[35%] h-[25vh] w-[22vh] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#2050a0]/25 blur-[70px]" />
         </div>
 
         {/* Avatar with parallax */}
         <motion.div
           className="absolute inset-0 z-10"
           style={{ x: avatarX, y: avatarY }}
+          animate={{ scale: isOpen ? 1.12 : 1 }}
+          transition={{ type: "spring", stiffness: 80, damping: 22, mass: 0.9 }}
         >
           <Image
             src="/scene/background-main.png"
@@ -613,7 +595,7 @@ export default function HeroScene() {
             fill
             priority
             fetchPriority="high"
-            className="object-contain object-center scale-[1.05] translate-y-[4%] min-[501px]:scale-[1.2] md:hidden"
+            className="object-contain object-center scale-[0.95] translate-y-[8%] min-[501px]:scale-[1.05] md:hidden"
             sizes="(max-width: 500px) 100vw, 50vw"
           />
           <Image
@@ -622,7 +604,7 @@ export default function HeroScene() {
             fill
             priority
             fetchPriority="high"
-            className="hidden object-contain object-center scale-[1.08] translate-y-[2%] md:block lg:hidden"
+            className="hidden object-contain object-center scale-[0.92] translate-y-[6%] md:block lg:hidden"
             sizes="(max-width: 1024px) 80vw, 50vw"
           />
           <Image
@@ -631,7 +613,7 @@ export default function HeroScene() {
             fill
             priority
             fetchPriority="high"
-            className="hidden object-contain object-center lg:block"
+            className="hidden object-contain object-center scale-[0.88] translate-y-[4%] lg:block"
             sizes="50vw"
           />
         </motion.div>
@@ -639,7 +621,7 @@ export default function HeroScene() {
         <CrossGrid />
 
         {/* Vignette */}
-        <div className="pointer-events-none absolute inset-0 z-20 bg-[radial-gradient(circle_at_50%_44%,rgba(0,0,0,0)_24%,rgba(0,0,0,0.42)_68%,rgba(0,0,0,0.85)_100%)]" />
+        <div className="pointer-events-none absolute inset-0 z-20 bg-[radial-gradient(ellipse_55%_65%_at_50%_42%,rgba(0,0,0,0)_20%,rgba(2,4,8,0.5)_55%,rgba(0,0,0,0.8)_80%,rgba(0,0,0,0.95)_100%)]" />
 
         {/* Floating icons */}
         <AnimatePresence>
@@ -783,7 +765,7 @@ export default function HeroScene() {
             exit={{ opacity: 0, y: -10, transition: { duration: 0.2 } }}
             transition={{ duration: 0.6, delay: 0.5 }}
           >
-            <h1 className="font-[var(--font-display)] text-xl font-semibold tracking-[0.12em] text-bronze/80 drop-shadow-[0_2px_12px_rgba(183,138,89,0.25)] md:text-3xl lg:text-4xl">
+            <h1 className="font-[var(--font-display)] text-xl font-semibold tracking-[0.12em] text-bronze/80 drop-shadow-[0_2px_12px_rgba(96,165,250,0.25)] md:text-3xl lg:text-4xl">
               {t("portfolioTitle", lang)}
             </h1>
           </motion.div>
@@ -847,16 +829,16 @@ export default function HeroScene() {
             exit={{ opacity: 0, y: 10, transition: { duration: 0.2 } }}
             transition={{ duration: 0.6, delay: 0.7 }}
           >
-            <a href="https://github.com/aminssutt" target="_blank" rel="noopener noreferrer" className="text-white/30 transition-colors hover:text-sand">
+            <a href="https://github.com/Mossab28" target="_blank" rel="noopener noreferrer" className="text-white/30 transition-colors hover:text-sand">
               <svg className="h-7 w-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
             </a>
-            <a href="https://www.linkedin.com/in/lakhdar-berache-62095426a/" target="_blank" rel="noopener noreferrer" className="text-white/30 transition-colors hover:text-sand">
+            <a href="https://www.linkedin.com/in/moss-ab-mirande-ney-1a7abb205/" target="_blank" rel="noopener noreferrer" className="text-white/30 transition-colors hover:text-sand">
               <svg className="h-7 w-7" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
             </a>
             <button
               type="button"
               onClick={() => setShowContact(true)}
-              className="rounded-full border border-bronze/30 bg-bronze/10 px-4 py-1.5 text-xs font-medium text-bronze/70 transition-all duration-300 hover:border-bronze/60 hover:bg-bronze/20 hover:text-bronze hover:shadow-[0_0_16px_rgba(183,138,89,0.3)]"
+              className="rounded-full border border-bronze/30 bg-bronze/10 px-4 py-1.5 text-xs font-medium text-bronze/70 transition-all duration-300 hover:border-bronze/60 hover:bg-bronze/20 hover:text-bronze hover:shadow-[0_0_16px_rgba(96,165,250,0.3)]"
             >
               {t("openToWork", lang)}
             </button>
@@ -893,19 +875,19 @@ export default function HeroScene() {
               <h3 className="font-[var(--font-display)] text-2xl font-semibold text-sand">{t("getInTouch", lang)}</h3>
               <p className="mt-2 text-base text-white/50">{t("contactDesc", lang)}</p>
               <div className="mt-6 space-y-3">
-                <a href="mailto:lakhdarberache@gmail.com" className="flex items-center gap-3 rounded-lg border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-sm text-sand transition-colors hover:border-bronze/30 hover:bg-bronze/[0.06]">
+                <a href="mailto:mossab.mirandeney1@gmail.com" className="flex items-center gap-3 rounded-lg border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-sm text-sand transition-colors hover:border-bronze/30 hover:bg-bronze/[0.06]">
                   <svg className="h-5 w-5 shrink-0 text-bronze" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
-                  lakhdarberache@gmail.com
+                  mossab.mirandeney1@gmail.com
                 </a>
-                <a href="tel:+33781500771" className="flex items-center gap-3 rounded-lg border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-sm text-sand transition-colors hover:border-bronze/30 hover:bg-bronze/[0.06]">
+                <a href="tel:+33763801847" className="flex items-center gap-3 rounded-lg border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-sm text-sand transition-colors hover:border-bronze/30 hover:bg-bronze/[0.06]">
                   <svg className="h-5 w-5 shrink-0 text-bronze" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>
-                  +33 7 81 50 07 71
+                  +33 7 63 80 18 47
                 </a>
-                <a href="https://www.linkedin.com/in/lakhdar-berache-62095426a/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-lg border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-sm text-sand transition-colors hover:border-bronze/30 hover:bg-bronze/[0.06]">
+                <a href="https://www.linkedin.com/in/moss-ab-mirande-ney-1a7abb205/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-lg border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-sm text-sand transition-colors hover:border-bronze/30 hover:bg-bronze/[0.06]">
                   <svg className="h-5 w-5 shrink-0 text-bronze" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                  Lakhdar Berache
+                  Moss&apos;Ab MIRANDE-NEY
                 </a>
-                <a href={RESUME_EN_URL} download="Lakhdar_Berache_Resume_EN.pdf" className="flex items-center gap-3 rounded-lg border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-sm text-sand transition-colors hover:border-bronze/30 hover:bg-bronze/[0.06]">
+                <a href={RESUME_EN_URL} download="MossAb_MIRANDE-NEY_Resume_EN.pdf" className="flex items-center gap-3 rounded-lg border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-sm text-sand transition-colors hover:border-bronze/30 hover:bg-bronze/[0.06]">
                   <svg className="h-5 w-5 shrink-0 text-bronze" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5A3.375 3.375 0 0010.125 2.25H8.25m5.25 9L9 15.75M9 15.75l-4.5-4.5M9 15.75V21M7.5 2.25H5.625A1.875 1.875 0 003.75 4.125v15.75c0 1.036.84 1.875 1.875 1.875h12.75a1.875 1.875 0 001.875-1.875V11.25a9 9 0 00-9-9z" /></svg>
                   Resume (EN)
                 </a>
