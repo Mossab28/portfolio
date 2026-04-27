@@ -391,7 +391,7 @@ function buildSections(
                 {p.link && (
                   <button
                     type="button"
-                    onClick={() => onPreview(p.link!)}
+                    onClick={() => p.link!.includes("github.com") || p.link!.includes("pwn-ai.com") || p.link!.includes("nereides.utt.fr") ? window.open(p.link!, "_blank", "noopener,noreferrer") : onPreview(p.link!)}
                     className="shrink-0 rounded-md border border-bronze/30 bg-bronze/10 px-2 py-0.5 text-[10px] text-bronze"
                   >
                     {t("proj_visit", lang)}

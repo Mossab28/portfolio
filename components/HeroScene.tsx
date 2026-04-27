@@ -228,10 +228,10 @@ function getSectionContent(onPreview: (url: string) => void, lang: Lang): Record
           <div
             key={p.name}
             className={`group flex flex-col rounded-lg border border-white/[0.06] bg-white/[0.02] p-5 transition-all duration-300 hover:border-bronze/40 hover:bg-bronze/[0.06] ${p.link ? "cursor-pointer" : ""}`}
-            onClick={() => p.link && onPreview(p.link)}
+            onClick={() => p.link && (p.link.includes("github.com") || p.link.includes("pwn-ai.com") || p.link.includes("nereides.utt.fr") ? window.open(p.link, "_blank", "noopener,noreferrer") : onPreview(p.link))}
             role={p.link ? "button" : undefined}
             tabIndex={p.link ? 0 : undefined}
-            onKeyDown={(e) => { if (p.link && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); onPreview(p.link); } }}
+            onKeyDown={(e) => { if (p.link && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); p.link.includes("github.com") || p.link.includes("pwn-ai.com") || p.link.includes("nereides.utt.fr") ? window.open(p.link, "_blank", "noopener,noreferrer") : onPreview(p.link); } }}
           >
             <div className="flex items-start justify-between">
               <h4 className="text-base font-semibold text-sand group-hover:text-bronze transition-colors">{p.name}</h4>
