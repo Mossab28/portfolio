@@ -216,12 +216,14 @@ function getSectionContent(onPreview: (url: string) => void, lang: Lang): Record
     cubes: (
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4">
         {[
-          { name: "XTrading Bot", desc: t("proj_hera_desc", lang), tech: "Python, ML, NLP, Time-Series", link: null },
-          { name: "LinkBoost", desc: t("proj_carchat_desc", lang), tech: "Python, NLP, Browser Automation", link: null },
+          { name: "PwnAI", desc: t("proj_pwnai_desc", lang), tech: "Next.js, TypeScript, Prisma, PostgreSQL, Docker, BullMQ", link: "https://pwn-ai.com" },
+          { name: "BookShelf API", desc: t("proj_bookshelf_desc", lang), tech: "Node.js, Express, TypeScript, PostgreSQL, Prisma", link: "https://mossabmirandeney.fr/bookshelf" },
+          { name: "XTrading Bot", desc: t("proj_hera_desc", lang), tech: "Python, ML, NLP, Time-Series", link: "https://github.com/Mossab28/trading" },
+          { name: "LinkBoost", desc: t("proj_carchat_desc", lang), tech: "Python, NLP, Browser Automation", link: "https://github.com/Mossab28/linkedin" },
           { name: "MegawattUTT", desc: t("proj_ecu_desc", lang), tech: "3D, Physics Simulation, Training", link: null },
           { name: "Nereides UTT", desc: t("proj_reply_desc", lang), tech: "Embedded Systems, Telemetry, IoT", link: "https://nereides.utt.fr" },
           { name: "Ride-Hailing App", desc: t("proj_aiadventure_desc", lang), tech: "Flutter, Node.js, MongoDB, Socket.IO", link: null },
-          { name: "Vitreteintees.com", desc: t("proj_greatteachers_desc", lang), tech: "Web, HTML/CSS, JavaScript", link: null },
+          { name: "Vitreteintees.com", desc: t("proj_greatteachers_desc", lang), tech: "Web, HTML/CSS, JavaScript", link: "https://github.com/Mossab28/multiplexauto" },
         ].map((p) => (
           <div
             key={p.name}
